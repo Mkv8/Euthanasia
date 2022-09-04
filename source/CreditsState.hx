@@ -81,6 +81,15 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+			['Creators of Everhood'],
+			['Chris Nordgren',		'a',		'Creators of Everhood and composers of Euthanasia Rollercoaster',								'https://store.steampowered.com/app/1229380/Everhood/',	'c0e4eb'],
+			['Jordi Roca',			'a',			'Creators of Everhood and composers of Euthanasia Rollercoaster',							'https://store.steampowered.com/app/1229380/Everhood/',		'c0e4eb'],
+			[''],
+			['Mod Makers'],
+			['Mkv8',		'mk',		'Programmer and artist',								'https://twitter.com/Mkv8Art',	'c0e4eb'],
+			['PpavlikosS',			'pav',			'Charter',							'https://twitter.com/PpavlikosS',		'c0e4eb'],
+			['Ne_Eo',				'neo',			'Programmer',						'https://twitter.com/Ne_Eo_Twitch',			'c0e4eb'],
+			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/RiverOaken',		'B42F71'],

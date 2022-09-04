@@ -142,9 +142,6 @@ class ClientPrefs {
 		if(FlxG.save.data.downScroll != null) {
 			downScroll = FlxG.save.data.downScroll;
 		}
-		if(FlxG.save.data.middleScroll != null) {
-			middleScroll = FlxG.save.data.middleScroll;
-		}
 		if(FlxG.save.data.opponentStrums != null) {
 			opponentStrums = FlxG.save.data.opponentStrums;
 		}

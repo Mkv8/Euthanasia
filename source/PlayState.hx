@@ -263,8 +263,9 @@ class PlayState extends MusicBeatState
 	var snow:BGSprite;
 	var tank:BGSprite;
 	var rainbars:FlxBackdrop;
+	var hyperstars:FlxBackdrop;
 	var stars:BGSprite;
-	var blacksquare:FlxSprite;
+	var blacksquare:BGSprite;
 
 	var bgGirls:BackgroundGirls;
 	var wiggleShit:WiggleEffect = new WiggleEffect();
@@ -423,11 +424,19 @@ class PlayState extends MusicBeatState
 		bubbles.antialiasing = ClientPrefs.globalAntialiasing;
 		bubbles.alpha = 0;
 
-		blacksquare.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		blacksquare.alpha = 1;
-		blacksquare.scale.set(1.5, 1.5);
+		hyperstars = new FlxBackdrop(Paths.image('hyper'), 0.2, 0, true, true);
+		hyperstars.velocity.set(1000, -100);
+		hyperstars.updateHitbox();
+		hyperstars.screenCenter(XY);
+		hyperstars.antialiasing = ClientPrefs.globalAntialiasing;
+		hyperstars.alpha = 0;
 
-		add(blacksquare);
+		blacksquare = new BGSprite(null, 0, -0, 0, 0);
+        blacksquare.makeGraphic(1, 1, FlxColor.BLACK);
+        blacksquare.alpha = 1;
+        blacksquare.scale.set(FlxG.width * 2 * 1.5, FlxG.height * 2 * 1.5);
+		blacksquare.updateHitbox();
+        blacksquare.screenCenter(XY);
 
 
 
@@ -533,17 +542,26 @@ class PlayState extends MusicBeatState
 
 			sstatic = new BGSprite('static', -2, -8, 1, 1);
 			sstatic.updateHitbox();
-			sstatic.cameras = [camHUD];
 			sstatic.screenCenter(XY);
 			sstatic.alpha = 0;
 
 			add(sstatic);
 	
-			stars = new BGSprite('stars', -2, -8, 1, 1);
+			stars = new BGSprite('stars', 0, 0, 1, 1);
 			stars.updateHitbox();
-			stars.cameras = [camHUD];
 			stars.screenCenter(XY);
+			stars.scale.set(0.9 , 0.9);
+
 			stars.alpha = 0;
+
+			cross = new FlxBackdrop(Paths.image('cross'), 0.2, 0, true, true);
+			cross.velocity.set(0, -80);
+			cross.updateHitbox();
+			cross.screenCenter(XY);
+			cross.antialiasing = ClientPrefs.globalAntialiasing;
+			cross.alpha = 0;
+
+			add(cross);
 
 			add(stars);
 
@@ -587,7 +605,8 @@ class PlayState extends MusicBeatState
 			rainbars = new FlxBackdrop(Paths.image('side bars'), 0.2, 0, true, true);
 			rainbars.velocity.set(0, -500);
 			rainbars.updateHitbox();
-			rainbars.screenCenter(XY);
+			rainbars.screenCenter(Y);
+			rainbars.scale.set(2, 5);
 			rainbars.antialiasing = ClientPrefs.globalAntialiasing;
 			rainbars.alpha = 0;
 
@@ -1476,6 +1495,8 @@ class PlayState extends MusicBeatState
 		Paths.clearUnusedMemory();
 		
 		CustomFadeTransition.nextCamera = camOther;
+
+		add(blacksquare);
 	}
 
 	#if (!flash && sys)
@@ -2939,6 +2960,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		rainbars.x = boyfriend.x - 50;
 		/*if (FlxG.keys.justPressed.NINE)
 		{
 			iconP1.swapOldIcon();
@@ -5038,7 +5060,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
 
-		if (curSong == 'euthanasia-rollercoaster' && curStage == 'universe') //ughgoddamn
+		if (curSong == 'Euthanasia Rollercoaster' && curStage == 'universe') //ughgoddamn
 			switch (curStep)
 				{
 					case 8:
@@ -5052,9 +5074,45 @@ class PlayState extends MusicBeatState
 					FlxG.camera.flash(FlxColor.WHITE,1,false);
 					FlxTween.tween(rainbars, {alpha: 1}, 0.5);
 					FlxTween.tween(stars, {alpha: 1}, 0.5);
-					FlxTween.tween(sstatic, {alpha: 1}, 0.5);
+					FlxTween.tween(sstatic, {alpha: 0.1}, 0.5);
 
 					}
+
+					
+					case 457:
+					{
+					FlxG.camera.flash(FlxColor.WHITE,1,false);
+					FlxTween.tween(rainbars, {alpha: 1}, 0.2);
+					FlxTween.tween(stars, {alpha: 1}, 0.2);
+					FlxTween.tween(sstatic, {alpha: 0.1}, 0.2);
+
+					}
+
+					case 841:
+						{
+						FlxG.camera.flash(FlxColor.WHITE,1,false);
+						FlxTween.tween(hyperstars, {alpha: 0}, 1);
+						FlxTween.tween(sstatic, {alpha: 0}, 1);
+	
+						}
+					case 969:
+						{
+						FlxG.camera.flash(FlxColor.WHITE,1,false);
+						FlxTween.tween(cross, {alpha: 0}, 1);
+	
+						}
+
+					case 999:
+						{
+						FlxTween.tween(rainbars, {alpha: 1}, 0.5);
+						FlxTween.tween(sstatic, {alpha: 0.1}, 0.5);
+						}
+
+					case 1040:
+						{
+						FlxTween.tween(stars, {alpha: 1}, 0.2);
+
+						}
 				}
 	}
 
@@ -5069,19 +5127,142 @@ class PlayState extends MusicBeatState
 
 
 
-		if (curSong == 'euthanasia-rollercoaster' && curStage == 'universe') //ughgoddamn
+		if (curSong == 'Euthanasia Rollercoaster' && curStage == 'universe') //ughgoddamn
 			switch (curBeat)
-				{
+				{ 
 					case 1:
 					{
 					add(bubbles);
-			
+					add(hyperstars);
 					}
 
-					case 42:
+					case 43:
 						{
 							FlxTween.tween(bubbles, {alpha: 0}, 3);
 							FlxG.camera.flash(FlxColor.WHITE,3,false);
+						}
+
+					case 108:
+						{
+							FlxTween.tween(rainbars, {alpha: 0}, 0.2);
+							FlxTween.tween(stars, {alpha: 0}, 0.2);
+							FlxTween.tween(sstatic, {alpha: 0}, 0.2);
+						}
+
+					case 120:
+						{
+							FlxTween.tween(stars, {alpha: 0}, 2);
+
+							new FlxTimer().start(6, function(tmr:FlxTimer)
+								{
+									FlxTween.tween(stars, {alpha: 1}, 2);
+
+								});
+						}
+
+					case 140:
+						{
+							FlxTween.tween(stars, {alpha: 0}, 2);
+
+							new FlxTimer().start(6, function(tmr:FlxTimer)
+								{
+									FlxTween.tween(stars, {alpha: 1}, 2);
+
+								});
+						}
+
+					case 160:
+						{
+							FlxTween.tween(stars, {alpha: 0}, 2);
+
+							new FlxTimer().start(6, function(tmr:FlxTimer)
+								{
+									FlxTween.tween(stars, {alpha: 1}, 2);
+
+								});
+						}
+
+					case 178:
+						{
+							FlxTween.tween(stars, {alpha: 0}, 1);
+							FlxTween.tween(rainbars, {alpha: 0}, 1);
+							FlxTween.tween(hyperstars, {alpha: 1}, 0.5);
+						}
+
+
+					case 215:
+						{
+							FlxTween.tween(cross, {alpha: 1}, 2);
+						}
+
+					case 388:
+						{
+							rainbars.alpha = 0;
+							stars.alpha = 0;
+							sstatic.alpha = 0;
+							stage.alpha = 1;
+						}
+
+					case 396:
+						{
+							stage.alpha = 0;
+							spooky.alpha = 1;
+						}
+
+					case 404:
+						{
+							spooky.alpha = 0;
+							pico.alpha = 1;
+						}
+
+					case 412:
+						{
+							pico.alpha = 0;
+							bglimo.alpha = 1;
+						}
+
+					case 420:
+						{
+							bglimo.alpha = 0;
+							snow.alpha = 1;
+						}
+
+					case 428:
+						{
+							snow.alpha = 0;
+							tank.alpha = 1;
+						}
+
+					case 436:
+						{
+							tank.alpha = 0;
+							stage.alpha = 1;
+						}
+
+					case 444:
+						{
+							stage.alpha = 0;
+							spooky.alpha = 1;
+						}
+
+					case 452:
+						{
+							FlxG.camera.flash(FlxColor.WHITE,1,false);
+							spooky.alpha = 0;
+						}
+
+					case 532:
+						{
+							FlxTween.tween(blacksquare, {alpha: 1}, 3);
+						}
+
+
+					case 552:
+						{
+							rainbars.alpha = 1;
+							stars.alpha = 1;
+							sstatic.alpha = 0.1;
+							blacksquare.alpha = 0;
 						}
 				}
 
