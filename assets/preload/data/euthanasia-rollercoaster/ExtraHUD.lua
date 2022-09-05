@@ -299,24 +299,6 @@ function onUpdate()
 		scaleObject('boyfriend', bf_flip/bounce, bounce)
 	end
 
-	if curStep == 1 and songBarr then
-		doTweenAlpha('wota', 'wot', 1 , 0.8, 'quadInOut')
-		doTweenY('wote', 'wot', 0 , 0.8, 'quadInOut')
-	end
-
-
-
-	if curStep == 25 and songBarr then 
-		doTweenAlpha('wota', 'wot', 0 , 1, 'quadInOut')
-		doTweenY('wote', 'wot', -200 , 0.8, 'quadInOut')
-		doTweenAlpha('shog', 'sogn', 1 , 1, 'quadInOut')
-		doTweenAlpha('shoge', 'tnh', 1 , 1, 'quadInOut')
-	end
-	if curStep == 10 and sideHealthbar then
-		doTweenAlpha('youz', 'youe',0, 2, 'linear')
-		doTweenAlpha('youx', 'youv',0, 2, 'linear')
-	end
-
 	if getProperty('health') > 1.6 then
 		if boyfriendName == 'bf' then
 			setProperty('iconP1.visible', false)
@@ -335,6 +317,36 @@ function onUpdate()
 			setProperty('iconP1.visible', true)
 			setProperty('wii.visible', false)
 		end
+	end
+end
+
+local stepEv = 0
+
+function onStepHit()
+	if stepEv == 0 and curStep >= 1 then
+		if songBarr then
+			doTweenAlpha('wota', 'wot', 1 , 0.8, 'quadInOut')
+			doTweenY('wote', 'wot', 0 , 0.8, 'quadInOut')
+		end
+		stepEv = stepEv + 1
+	end
+
+	if stepEv == 1 and curStep >= 10 then
+		if sideHealthbar then
+			doTweenAlpha('youz', 'youe', 0, 2, 'linear')
+			doTweenAlpha('youx', 'youv', 0, 2, 'linear')
+		end
+		stepEv = stepEv + 1
+	end
+
+	if stepEv == 2 and curStep >= 25 then
+		if songBarr then
+			doTweenAlpha('wota', 'wot', 0 , 1, 'quadInOut')
+			doTweenY('wote', 'wot', -200 , 0.8, 'quadInOut')
+			doTweenAlpha('shog', 'sogn', 1 , 1, 'quadInOut')
+			doTweenAlpha('shoge', 'tnh', 1 , 1, 'quadInOut')
+		end
+		stepEv = stepEv + 1
 	end
 end
 
@@ -408,7 +420,7 @@ function opponentNoteHit(id, direction, noteType, isSustainNote)
 	newBeat = true
 	if healthdrain then
 		if getProperty('health') > 0.2 then
-		setProperty('health',getProperty('health')-0.02)
+			setProperty('health',getProperty('health')-0.02)
 		end
 	end
 end
