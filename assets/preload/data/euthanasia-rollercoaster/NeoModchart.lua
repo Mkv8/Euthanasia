@@ -303,7 +303,7 @@ function onEvent(name, v1, v2)
 			setActorX(_G['defaultPlayerStrumX'..i] + math.random() * 30, i+4)
 			setActorY(_G['defaultPlayerStrumY'..i] + math.random() * 30, i+4)
 			--tweenPosX(i+4, _G['defaultPlayerStrumX'..i], 0.3)
-			tweenPosY(i+4, _G['defaultPlayerStrumY'..i], 0.3)
+			--tweenPosY(i+4, _G['defaultPlayerStrumY'..i], 0.3)
 		end
 		longGlitch = 0
 	elseif name == "Glitch Small" then
@@ -311,7 +311,7 @@ function onEvent(name, v1, v2)
 			setActorX(_G['defaultPlayerStrumX'..i] + math.random() * 10, i+4)
 			setActorY(_G['defaultPlayerStrumY'..i] + math.random() * 10, i+4)
 			--tweenPosX(i+4, _G['defaultPlayerStrumX'..i], 0.3)
-			tweenPosY(i+4, _G['defaultPlayerStrumY'..i], 0.3)
+			--tweenPosY(i+4, _G['defaultPlayerStrumY'..i], 0.3)
 		end
 		longGlitch = 0
 	elseif name == "Glitch Long" then
