@@ -235,9 +235,9 @@ class ChartingState extends MusicBeatState
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.set();
-		bg.color = 0xFF222222;
+		//bg.color = 0xFF222222;
 		add(bg);
 
 		gridLayer = new FlxTypedGroup<FlxSprite>();
@@ -2698,7 +2698,6 @@ class ChartingState extends MusicBeatState
 			mustHitSection: true,
 			gfSection: false,
 			sectionNotes: [],
-			typeOfSection: 0,
 			altAnim: false
 		};
 

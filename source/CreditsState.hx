@@ -45,7 +45,7 @@ class CreditsState extends MusicBeatState
 		#end
 
 		persistentUpdate = true;
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
 		add(bg);
 		bg.screenCenter();
 		
@@ -149,7 +149,7 @@ class CreditsState extends MusicBeatState
 		}
 		
 		descBox = new AttachedSprite();
-		descBox.makeGraphic(1, 1, FlxColor.BLACK);
+		descBox.makeSolid(1, 1, FlxColor.BLACK);
 		descBox.xAdd = -10;
 		descBox.yAdd = -10;
 		descBox.alphaMult = 0.6;
@@ -163,7 +163,7 @@ class CreditsState extends MusicBeatState
 		descBox.sprTracker = descText;
 		add(descText);
 
-		bg.color = getCurrentBGColor();
+		//bg.color = getCurrentBGColor();
 		intendedColor = bg.color;
 		changeSelection();
 		super.create();
@@ -258,18 +258,18 @@ class CreditsState extends MusicBeatState
 				curSelected = 0;
 		} while(unselectableCheck(curSelected));
 
-		var newColor:Int =  getCurrentBGColor();
-		if(newColor != intendedColor) {
-			if(colorTween != null) {
-				colorTween.cancel();
-			}
-			intendedColor = newColor;
-			colorTween = FlxTween.color(bg, 1, bg.color, intendedColor, {
-				onComplete: function(twn:FlxTween) {
-					colorTween = null;
-				}
-			});
-		}
+		//var newColor:Int =  getCurrentBGColor();
+		//if(newColor != intendedColor) {
+		//	if(colorTween != null) {
+		//		colorTween.cancel();
+		//	}
+		//	intendedColor = newColor;
+		//	colorTween = FlxTween.color(bg, 1, bg.color, intendedColor, {
+		//		onComplete: function(twn:FlxTween) {
+		//			colorTween = null;
+		//		}
+		//	});
+		//}
 
 		var bullShit:Int = 0;
 

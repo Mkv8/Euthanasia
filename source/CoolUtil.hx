@@ -1,5 +1,7 @@
 package;
 
+import flixel.util.FlxGradient;
+import flixel.util.FlxColor;
 import flixel.FlxG;
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
@@ -86,25 +88,26 @@ class CoolUtil
 
 		return daList;
 	}
-	public static function dominantColor(sprite:flixel.FlxSprite):Int{
+	public static function dominantColor(sprite:flixel.FlxSprite):Int
+	{
 		var countByColor:Map<Int, Int> = [];
-		for(col in 0...sprite.frameWidth){
-			for(row in 0...sprite.frameHeight){
-			  var colorOfThisPixel:Int = sprite.pixels.getPixel32(col, row);
-			  if(colorOfThisPixel != 0){
-				  if(countByColor.exists(colorOfThisPixel)){
-				    countByColor[colorOfThisPixel] =  countByColor[colorOfThisPixel] + 1;
-				  }else if(countByColor[colorOfThisPixel] != 13520687 - (2*13520687)){
-					 countByColor[colorOfThisPixel] = 1;
-				  }
-			  }
+		for(col in 0...sprite.frameWidth) {
+			for(row in 0...sprite.frameHeight) {
+				var colorOfThisPixel:Int = sprite.pixels.getPixel32(col, row);
+				if(colorOfThisPixel != 0) {
+					if(countByColor.exists(colorOfThisPixel)) {
+						countByColor[colorOfThisPixel] =  countByColor[colorOfThisPixel] + 1;
+					} else if(countByColor[colorOfThisPixel] != 13520687 - (2*13520687)) {
+						countByColor[colorOfThisPixel] = 1;
+					}
+				}
 			}
-		 }
+		}
 		var maxCount = 0;
 		var maxKey:Int = 0;//after the loop this will store the max color
-		countByColor[flixel.util.FlxColor.BLACK] = 0;
-			for(key in countByColor.keys()){
-			if(countByColor[key] >= maxCount){
+		countByColor[FlxColor.BLACK] = 0;
+		for(key in countByColor.keys()) {
+			if(countByColor[key] >= maxCount) {
 				maxCount = countByColor[key];
 				maxKey = key;
 			}
@@ -112,7 +115,7 @@ class CoolUtil
 		return maxKey;
 	}
 
-	public static function numberArray(max:Int, ?min = 0):Array<Int>
+	public static function numberArray(max:Int, ?min:Int = 0):Array<Int>
 	{
 		var dumbArray:Array<Int> = [];
 		for (i in min...max)
@@ -129,6 +132,45 @@ class CoolUtil
 
 	public static function precacheMusic(sound:String, ?library:String = null):Void {
 		Paths.music(sound, library);
+	}
+
+	public inline static function trimTextStart(text:String, toRemove:String, unsafe:Bool = false):String
+	{
+		if(unsafe || text.startsWith(toRemove)) {
+			return text.substr(toRemove.length);
+		}
+		return text;
+	}
+
+	/**
+	 * Modulo that works for negative numbers
+	 */
+	 public inline static function mod(n:Int, m:Int) {
+		return ((n % m) + m) % m;
+	}
+
+	public static function makeGradient(width:Int, height:Int, colors:Array<FlxColor>, chunkSize:UInt = 1, rotation:Int = 90, interpolate:Bool = true) {
+		var gradWidth = width;
+		var gradHeight = height;
+		var gradXScale = 1;
+		var gradYScale = 1;
+
+		var modRotation = mod(rotation, 360);
+
+		if(modRotation == 90 || modRotation == 270) {
+			gradXScale = width;
+			gradWidth = 1;
+		}
+
+		if(modRotation == 0 || modRotation == 180) {
+			gradYScale = height;
+			gradHeight = 1;
+		}
+
+		var gradient = FlxGradient.createGradientFlxSprite(gradWidth, gradHeight, colors, chunkSize, rotation, interpolate);
+		gradient.scale.set(gradXScale, gradYScale);
+		gradient.updateHitbox();
+		return gradient;
 	}
 
 	public static function browserLoad(site:String) {

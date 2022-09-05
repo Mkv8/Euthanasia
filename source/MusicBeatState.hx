@@ -141,6 +141,10 @@ class MusicBeatState extends FlxUIState
 		FlxG.switchState(nextState);
 	}
 
+	public function removeFull(sprite:FlxBasic) {
+		sprite.exists = false;
+	}
+
 	public static function resetState() {
 		MusicBeatState.switchState(FlxG.state);
 	}

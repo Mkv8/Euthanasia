@@ -15,6 +15,11 @@ import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxTimer;
 
 /**
+ * Modified by Ne_Eo
+ * to fix bugs where the mouse checks didn't account for the zoom of the camera
+ */
+
+/**
  * FlxInputText v1.11, ported to Haxe
  * @author larsiusprime, (Lars Doucet)
  * @link http://github.com/haxeflixel/flixel-ui
@@ -29,7 +34,7 @@ import flixel.util.FlxTimer;
  * 
  * Modified by PlankDev to support cut/copy/paste
  */
-class FlxInputText extends FlxText
+class FlxInputText extends FlxFixedText
 {
 	public static inline var NO_FILTER:Int = 0;
 	public static inline var ONLY_ALPHA:Int = 1;
@@ -49,13 +54,15 @@ class FlxInputText extends FlxText
 	public static inline var COPY_ACTION:String = "copy"; // text copy
 	public static inline var CUT_ACTION:String = "cut"; // text copy
 
+	public var text_dirty:Bool = true;
+
 	/**
 	 * This regular expression will filter out (remove) everything that matches.
 	 * Automatically sets filterMode = FlxInputText.CUSTOM_FILTER.
 	 */
 	public var customFilterPattern(default, set):EReg;
 
-	function set_customFilterPattern(cfp:EReg)
+	inline function set_customFilterPattern(cfp:EReg)
 	{
 		customFilterPattern = cfp;
 		filterMode = CUSTOM_FILTER;
@@ -77,19 +84,19 @@ class FlxInputText extends FlxText
 	 */
 	public var caretColor(default, set):Int;
 
-	function set_caretColor(i:Int):Int
+	inline function set_caretColor(i:Int):Int
 	{
 		caretColor = i;
-		dirty = true;
+		text_dirty = true;
 		return caretColor;
 	}
 
 	public var caretWidth(default, set):Int = 1;
 
-	function set_caretWidth(i:Int):Int
+	inline function set_caretWidth(i:Int):Int
 	{
 		caretWidth = i;
-		dirty = true;
+		text_dirty = true;
 		return caretWidth;
 	}
 
@@ -179,10 +186,10 @@ class FlxInputText extends FlxText
 	 */
 	private var fieldBorderSprite:FlxSprite;
 
-	/**
-	 * The left- and right- most fully visible character indeces
+	/*
+	  The left- and right- most fully visible character indeces
 	 */
-	private var _scrollBoundIndeces:{left:Int, right:Int} = {left: 0, right: 0};
+	//private var _scrollBoundIndeces:{left:Int, right:Int} = {left: 0, right: 0};
 
 	// workaround to deal with non-availability of getCharIndexAtPoint or getCharBoundaries on cpp/neko targets
 	private var _charBoundaries:Array<FlxRect>;
@@ -218,7 +225,9 @@ class FlxInputText extends FlxText
 
 		caret = new FlxSprite();
 		caret.makeGraphic(caretWidth, Std.int(size + 2));
-		_caretTimer = new FlxTimer();
+		caret.active = false;
+		caret.exists = false;
+		//_caretTimer = new FlxTimer();
 
 		caretIndex = 0;
 		hasFocus = false;
@@ -226,6 +235,9 @@ class FlxInputText extends FlxText
 		{
 			fieldBorderSprite = new FlxSprite(X, Y);
 			backgroundSprite = new FlxSprite(X, Y);
+
+			fieldBorderSprite.active = false;
+			backgroundSprite.active = false;
 		}
 
 		lines = 1;
@@ -250,17 +262,23 @@ class FlxInputText extends FlxText
 
 		backgroundSprite = FlxDestroyUtil.destroy(backgroundSprite);
 		fieldBorderSprite = FlxDestroyUtil.destroy(fieldBorderSprite);
+		caret = FlxDestroyUtil.destroy(caret);
+		if(_caretTimer != null) {
+			_caretTimer.cancel();
+		}
+		_caretTimer = FlxDestroyUtil.destroy(_caretTimer);
 		callback = null;
 
 		#if sys
-		if (_charBoundaries != null)
+		/*if (_charBoundaries != null)
 		{
 			while (_charBoundaries.length > 0)
 			{
-				_charBoundaries.pop();
+				_charBoundaries.pop().put();
 			}
 			_charBoundaries = null;
-		}
+		}*/
+		_charBoundaries = FlxDestroyUtil.putArray(_charBoundaries);
 		#end
 
 		super.destroy();
@@ -274,24 +292,28 @@ class FlxInputText extends FlxText
 		drawSprite(fieldBorderSprite);
 		drawSprite(backgroundSprite);
 
+		dirty = text_dirty;
+
 		super.draw();
 
-		// In case caretColor was changed
-		if (caretColor != caret.color || caret.height != size + 2)
-		{
-			caret.color = caretColor;
-		}
+		if(caret.exists) {
+			// In case caretColor was changed
+			if (caretColor != caret.color || caret.height != size + 2)
+			{
+				caret.color = caretColor;
+			}
 
-		drawSprite(caret);
+			drawSprite(caret);
+		}
 	}
 
 	/**
 	 * Helper function that makes sure sprites are drawn up even though they haven't been added.
 	 * @param	Sprite		The Sprite to be drawn.
 	 */
-	private function drawSprite(Sprite:FlxSprite):Void
+	private inline function drawSprite(Sprite:FlxSprite):Void
 	{
-		if (Sprite != null && Sprite.visible)
+		if (Sprite != null && Sprite.visible && Sprite.exists)
 		{
 			Sprite.scrollFactor = scrollFactor;
 			Sprite.cameras = cameras;
@@ -310,8 +332,18 @@ class FlxInputText extends FlxText
 		// Set focus and caretIndex as a response to mouse press
 		if (FlxG.mouse.justPressed)
 		{
+			var overlap:Bool = false;
+			for (camera in cameras)
+			{
+				if (overlapsPoint(FlxG.mouse.getWorldPosition(camera), true, camera))
+				{
+					overlap = true;
+					break;
+				}
+			}
+
 			var hadFocus:Bool = hasFocus;
-			if (FlxG.mouse.overlaps(this))
+			if (overlap)
 			{
 				caretIndex = getCaretIndex();
 				hasFocus = true;
@@ -333,19 +365,19 @@ class FlxInputText extends FlxText
 	 */
 	private function onKeyDown(e:KeyboardEvent):Void
 	{
-		var key:Int = e.keyCode;
-
 		if (hasFocus)
 		{
+			var key:Int = e.keyCode;
 
 			  //// Crtl/Cmd + C to copy text to the clipboard
 			  // This copies the entire input, because i'm too lazy to do caret selection, and if i did it i whoud probabbly make it a pr in flixel-ui.
 
 			  #if (macos)
-			  if (key == 67 && e.commandKey) {
+			  if (key == 67 && e.commandKey)
 			  #else
-			  if (key == 67 && e.ctrlKey) {
+			  if (key == 67 && e.ctrlKey)
 		 	  #end
+			  {
 				Clipboard.text = text;
 
 				onChange(COPY_ACTION);
@@ -356,10 +388,11 @@ class FlxInputText extends FlxText
 
 			  //// Crtl/Cmd + V to paste in the clipboard text to the input
 			  #if (macos)
-			  if (key == 86 && e.commandKey) {
+			  if (key == 86 && e.commandKey)
 			  #else
-			  if (key == 86 && e.ctrlKey) {
+			  if (key == 86 && e.ctrlKey)
 			  #end
+			  {
 				var newText:String = filter(Clipboard.text);
 
 				if (newText.length > 0 && (maxLength == 0 || (text.length + newText.length) < maxLength)) {
@@ -376,10 +409,11 @@ class FlxInputText extends FlxText
 			//// Crtl/Cmd + X to cut the text from the input to the clipboard
 			// Again, this copies the entire input text because there is no caret selection.
 			#if (macos)
-			if (key == 88 && e.commandKey) {
+			if (key == 88 && e.commandKey)
 			#else
-			if (key == 88 && e.ctrlKey) {
+			if (key == 88 && e.ctrlKey)
 			#end
+			{
 				Clipboard.text = text;
 				text = '';
 				caretIndex = 0;
@@ -506,8 +540,11 @@ class FlxInputText extends FlxText
 	private function getCaretIndex():Int
 	{
 		#if FLX_MOUSE
-		var hit = FlxPoint.get(FlxG.mouse.x - x, FlxG.mouse.y - y);
-		return getCharIndexAtPoint(hit.x, hit.y);
+		var mousePos = FlxG.mouse.getWorldPosition(camera);
+		var hit = FlxPoint.get(mousePos.x - x, mousePos.y - y);
+		var value = getCharIndexAtPoint(hit.x, hit.y);
+		hit.put();
+		return value;
 		#else
 		return 0;
 		#end
@@ -593,11 +630,9 @@ class FlxInputText extends FlxText
 				switch (getAlignStr())
 				{
 					case RIGHT:
-						X = X - textField.width + textField.textWidth
-							;
+						X = X - textField.width + textField.textWidth;
 					case CENTER:
-						X = X - textField.width / 2 + textField.textWidth / 2
-							;
+						X = X - textField.width / 2 + textField.textWidth / 2;
 					default:
 				}
 			}
@@ -641,7 +676,7 @@ class FlxInputText extends FlxText
 			var diff:Int = _charBoundaries.length - numChars;
 			for (i in 0...diff)
 			{
-				_charBoundaries.pop();
+				_charBoundaries.pop().put();
 			}
 		}
 
@@ -705,11 +740,18 @@ class FlxInputText extends FlxText
 	{
 		super.calcFrame(RunOnCpp);
 
+		if(!text_dirty) return;
+
+		text_dirty = false;
+
 		if (fieldBorderSprite != null)
 		{
 			if (fieldBorderThickness > 0)
 			{
-				fieldBorderSprite.makeGraphic(Std.int(width + fieldBorderThickness * 2), Std.int(height + fieldBorderThickness * 2), fieldBorderColor);
+				var fWidth = Std.int(width + fieldBorderThickness * 2);
+				var fHeight = Std.int(height + fieldBorderThickness * 2);
+				var key:String = "fieldBorderSprite" + fWidth + "x" + fHeight + "c:" + fieldBorderColor + "t:" + fieldBorderThickness;
+				fieldBorderSprite.makeGraphic(fWidth, fHeight, fieldBorderColor, false, key);
 				fieldBorderSprite.x = x - fieldBorderThickness;
 				fieldBorderSprite.y = y - fieldBorderThickness;
 			}
@@ -723,7 +765,8 @@ class FlxInputText extends FlxText
 		{
 			if (background)
 			{
-				backgroundSprite.makeGraphic(Std.int(width), Std.int(height), backgroundColor);
+				var bgKey:String = "backgroundSprite" + Std.int(width) + "x" + Std.int(height) + "c:" + backgroundColor;
+				backgroundSprite.makeGraphic(Std.int(width), Std.int(height), backgroundColor, false, bgKey);
 				backgroundSprite.x = x;
 				backgroundSprite.y = y;
 			}
@@ -752,7 +795,7 @@ class FlxInputText extends FlxText
 				case NONE:
 					// No border, just make the caret
 					caret.makeGraphic(cw, ch, caretC, false, caretKey);
-					caret.offset.x = caret.offset.y = 0;
+					caret.offset.set(0, 0);
 
 				case SHADOW:
 					// Shadow offset to the lower-right
@@ -763,7 +806,7 @@ class FlxInputText extends FlxText
 					caret.pixels.fillRect(r, borderC); // draw shadow
 					r.x = r.y = 0;
 					caret.pixels.fillRect(r, caretC); // draw caret
-					caret.offset.x = caret.offset.y = 0;
+					caret.offset.set(0, 0);
 
 				case OUTLINE_FAST, OUTLINE:
 					// Border all around it
@@ -788,7 +831,7 @@ class FlxInputText extends FlxText
 	 */
 	private function toggleCaret(timer:FlxTimer):Void
 	{
-		caret.visible = !caret.visible;
+		caret.exists = !caret.exists;
 	}
 
 	/**
@@ -871,18 +914,24 @@ class FlxInputText extends FlxText
 		{
 			if (hasFocus != newFocus)
 			{
+				if (_caretTimer != null)
+				{
+					_caretTimer.cancel();
+					_caretTimer = FlxDestroyUtil.destroy(_caretTimer);
+				}
 				_caretTimer = new FlxTimer().start(0.5, toggleCaret, 0);
-				caret.visible = true;
+				caret.exists = true;
 				caretIndex = text.length;
 			}
 		}
 		else
 		{
 			// Graphics
-			caret.visible = false;
+			caret.exists = false;
 			if (_caretTimer != null)
 			{
 				_caretTimer.cancel();
+				_caretTimer = FlxDestroyUtil.destroy(_caretTimer);
 			}
 		}
 
@@ -982,7 +1031,7 @@ class FlxInputText extends FlxText
 		return caretIndex;
 	}
 
-	private function set_forceCase(Value:Int):Int
+	private inline function set_forceCase(Value:Int):Int
 	{
 		forceCase = Value;
 		text = filter(text);
@@ -1023,11 +1072,12 @@ class FlxInputText extends FlxText
 		}
 
 		lines = Value;
+		text_dirty = true;
 		calcFrame();
 		return lines;
 	}
 
-	private function get_passwordMode():Bool
+	private inline function get_passwordMode():Bool
 	{
 		return textField.displayAsPassword;
 	}
@@ -1035,6 +1085,7 @@ class FlxInputText extends FlxText
 	private function set_passwordMode(value:Bool):Bool
 	{
 		textField.displayAsPassword = value;
+		text_dirty = true;
 		calcFrame();
 		return value;
 	}
@@ -1049,6 +1100,7 @@ class FlxInputText extends FlxText
 	private function set_fieldBorderColor(Value:Int):Int
 	{
 		fieldBorderColor = Value;
+		text_dirty = true;
 		calcFrame();
 		return fieldBorderColor;
 	}
@@ -1056,6 +1108,7 @@ class FlxInputText extends FlxText
 	private function set_fieldBorderThickness(Value:Int):Int
 	{
 		fieldBorderThickness = Value;
+		text_dirty = true;
 		calcFrame();
 		return fieldBorderThickness;
 	}
@@ -1063,6 +1116,7 @@ class FlxInputText extends FlxText
 	private function set_backgroundColor(Value:Int):Int
 	{
 		backgroundColor = Value;
+		text_dirty = true;
 		calcFrame();
 		return backgroundColor;
 	}

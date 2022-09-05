@@ -75,7 +75,7 @@ class ModsMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 		bg.screenCenter();
@@ -365,10 +365,10 @@ class ModsMenuState extends MusicBeatState
 
 		if(curSelected >= mods.length) curSelected = 0;
 
-		if(mods.length < 1)
-			bg.color = defaultColor;
-		else
-			bg.color = mods[curSelected].color;
+		//if(mods.length < 1)
+		//	bg.color = defaultColor;
+		//else
+		//	bg.color = mods[curSelected].color;
 
 		intendedColor = bg.color;
 		changeSelection();
@@ -540,18 +540,18 @@ class ModsMenuState extends MusicBeatState
 		else if(curSelected >= mods.length)
 			curSelected = 0;
 
-		var newColor:Int = mods[curSelected].color;
-		if(newColor != intendedColor) {
-			if(colorTween != null) {
-				colorTween.cancel();
-			}
-			intendedColor = newColor;
-			colorTween = FlxTween.color(bg, 1, bg.color, intendedColor, {
-				onComplete: function(twn:FlxTween) {
-					colorTween = null;
-				}
-			});
-		}
+		//var newColor:Int = mods[curSelected].color;
+		//if(newColor != intendedColor) {
+		//	if(colorTween != null) {
+		//		colorTween.cancel();
+		//	}
+		//	intendedColor = newColor;
+		//	colorTween = FlxTween.color(bg, 1, bg.color, intendedColor, {
+		//		onComplete: function(twn:FlxTween) {
+		//			colorTween = null;
+		//		}
+		//	});
+		//}
 
 		var i:Int = 0;
 		for (mod in mods)

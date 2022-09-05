@@ -3281,7 +3281,7 @@ class ModchartSprite extends FlxSprite
 	}
 }
 
-class ModchartText extends FlxText
+class ModchartText extends FlxFixedText
 {
 	public var wasAdded:Bool = false;
 	public function new(x:Float, y:Float, text:String, width:Float)
@@ -3294,7 +3294,7 @@ class ModchartText extends FlxText
 	}
 }
 
-class DebugLuaText extends FlxText
+class DebugLuaText extends FlxFixedText
 {
 	private var disableTime:Float = 6;
 	public var parentGroup:FlxTypedGroup<DebugLuaText>;

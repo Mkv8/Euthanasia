@@ -107,7 +107,7 @@ class AchievementObject extends FlxSpriteGroup {
 		ClientPrefs.saveSettings();
 
 		var id:Int = Achievements.getAchievementIndex(name);
-		var achievementBG:FlxSprite = new FlxSprite(60, 50).makeGraphic(420, 120, FlxColor.BLACK);
+		var achievementBG:FlxSprite = new FlxSpriteExtra(60, 50).makeSolid(420, 120, FlxColor.BLACK);
 		achievementBG.scrollFactor.set();
 
 		var achievementIcon:FlxSprite = new FlxSprite(achievementBG.x + 10, achievementBG.y + 10).loadGraphic(Paths.image('achievements/' + name));

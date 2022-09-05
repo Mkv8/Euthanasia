@@ -1,9 +1,10 @@
 package;
 
-import lime.app.Promise;
-import lime.app.Future;
 import flixel.FlxG;
 import flixel.FlxState;
+#if NO_PRELOAD_ALL
+import lime.app.Promise;
+import lime.app.Future;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxTimer;
@@ -15,9 +16,11 @@ import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
 
 import haxe.io.Path;
+#end
 
-class LoadingState extends MusicBeatState
+class LoadingState #if NO_PRELOAD_ALL extends MusicBeatState #end
 {
+	#if NO_PRELOAD_ALL
 	inline static var MIN_TIME = 1.0;
 
 	// Browsers will load create(), you can make your song load a custom directory there
@@ -44,7 +47,7 @@ class LoadingState extends MusicBeatState
 	var loadBar:FlxSprite;
 	override function create()
 	{
-		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
+		var bg:FlxSprite = new FlxSpriteExtra(0, 0).makeSolid(FlxG.width, FlxG.height, 0xffcaff4d);
 		add(bg);
 		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/funkay.png', IMAGE));
 		funkay.setGraphicSize(0, FlxG.height);
@@ -65,11 +68,11 @@ class LoadingState extends MusicBeatState
 			{
 				callbacks = new MultiCallback(onLoad);
 				var introComplete = callbacks.add("introComplete");
-				/*if (PlayState.SONG != null) {
+				if (PlayState.SONG != null) {
 					checkLoadSong(getSongPath());
 					if (PlayState.SONG.needsVoices)
 						checkLoadSong(getVocalPath());
-				}*/
+				}
 				checkLibrary("shared");
 				if(directory != null && directory.length > 0 && directory != 'shared') {
 					checkLibrary(directory);
@@ -144,6 +147,7 @@ class LoadingState extends MusicBeatState
 	{
 		return Paths.voices(PlayState.SONG.song);
 	}
+	#end
 	
 	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
 	{
@@ -170,8 +174,9 @@ class LoadingState extends MusicBeatState
 		if (!loaded)
 			return new LoadingState(target, stopMusic, directory);
 		#end
-		if (stopMusic && FlxG.sound.music != null)
+		if (stopMusic && FlxG.sound.music != null) {
 			FlxG.sound.music.stop();
+		}
 		
 		return target;
 	}
@@ -188,6 +193,7 @@ class LoadingState extends MusicBeatState
 	}
 	#end
 	
+	#if NO_PRELOAD_ALL
 	override function destroy()
 	{
 		super.destroy();
@@ -260,8 +266,10 @@ class LoadingState extends MusicBeatState
 
 		return promise.future;
 	}
+	#end
 }
 
+#if NO_PRELOAD_ALL
 class MultiCallback
 {
 	public var callback:Void->Void;
@@ -318,3 +326,4 @@ class MultiCallback
 	public function getFired() return fired.copy();
 	public function getUnfired() return [for (id in unfired.keys()) id];
 }
+#end
