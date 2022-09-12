@@ -44,7 +44,7 @@ function onCreate()
 		_G['defaultStrum'..i..'Y'] = 0
 	end
 
-	setProperty('songLengthOffset', -24000)
+	setProperty('songLengthOffset', -90000)
 
 	-- Incase the script loaded after the countdown, normally it would be 0
 	if getProperty("startedCountdown") then

@@ -200,10 +200,12 @@ function onCreatePost()
 		setProperty('scoreTxt.y', 1*690)
 		setProperty('timeTxt.y', getProperty('iconP1.y')+ 5)
 		setProperty('timeTxt.x', getProperty('scoreTxt.x')+ 440)
+		screenCenter("timeTxt", "x")
 	end
 	if not downscroll then
 		setProperty('scoreTxt.y', 1*20)
 		setProperty('timeTxt.y', getProperty('iconP1.y')+ 100)
+		screenCenter("timeTxt", "x")
 	end
 end
 

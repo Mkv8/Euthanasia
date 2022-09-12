@@ -298,6 +298,8 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+
+		//lime.app.Application.current.window.opacity = 0.5;
 		Paths.clearStoredMemory();
 
 		// for lua
@@ -3836,6 +3838,7 @@ class PlayState extends MusicBeatState
 				FlxTween.cancelTweensOf(stars);
 				FlxTween.cancelTweensOf(sstatic);
 				FlxTween.cancelTweensOf(blacksquare);
+				FlxG.camera.flash(FlxColor.WHITE,1,false);
 				rainbars.alpha = 1;
 				stars.alpha = 1;
 				sstatic.alpha = 0.1;
