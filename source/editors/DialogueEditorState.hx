@@ -1,8 +1,5 @@
 package editors;
 
-#if desktop
-import Discord.DiscordClient;
-#end
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
@@ -64,7 +61,7 @@ class DialogueEditorState extends MusicBeatState
 				copyDefaultLine()
 			]
 		};
-		
+
 		character = new DialogueCharacter();
 		character.scrollFactor.set();
 		add(character);
@@ -141,7 +138,7 @@ class DialogueEditorState extends MusicBeatState
 
 		soundInputText = new FlxUIInputText(10, speedStepper.y + 40, 150, '', 8);
 		blockPressWhileTypingOn.push(soundInputText);
-		
+
 		lineInputText = new FlxUIInputText(10, soundInputText.y + 35, 200, DEFAULT_TEXT, 8);
 		blockPressWhileTypingOn.push(lineInputText);
 
@@ -209,7 +206,7 @@ class DialogueEditorState extends MusicBeatState
 		switch(character.jsonFile.dialogue_pos) {
 			case 'right':
 				character.x = FlxG.width - character.width + DialogueBoxPsych.RIGHT_CHAR_X;
-			
+
 			case 'center':
 				character.x = FlxG.width / 2;
 				character.x -= character.width / 2;

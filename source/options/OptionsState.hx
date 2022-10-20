@@ -1,8 +1,5 @@
 package options;
 
-#if desktop
-import Discord.DiscordClient;
-#end
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -113,7 +110,7 @@ class OptionsState extends MusicBeatState
 			openSelectedSubstate(options[curSelected]);
 		}
 	}
-	
+
 	function changeSelection(change:Int = 0) {
 		curSelected += change;
 		if (curSelected < 0)

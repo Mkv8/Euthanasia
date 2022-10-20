@@ -31,7 +31,7 @@ import flixel.util.FlxTimer;
  * Copyright (c) 2009 Martín Sebastián Wain
  * License: Creative Commons Attribution 3.0 United States
  * @link http://creativecommons.org/licenses/by/3.0/us/
- * 
+ *
  * Modified by PlankDev to support cut/copy/paste
  */
 class FlxInputText extends FlxFixedText

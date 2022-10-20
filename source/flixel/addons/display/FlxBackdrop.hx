@@ -231,17 +231,29 @@ class FlxBackdrop extends FlxSprite
 
 	function regenGraphic():Void
 	{
+		// TODO: Reduce more drawn tiles
 		var sx:Float = Math.abs(scale.x);
 		var sy:Float = Math.abs(scale.y);
 
-		var ssw:Int = Std.int(_scrollW * sx);
-		var ssh:Int = Std.int(_scrollH * sy);
+		var ssw:Int = Std.int(_scrollW * sx); // scaled source width
+		var ssh:Int = Std.int(_scrollH * sy); // scaled source height
 
 		var w:Int = ssw;
 		var h:Int = ssh;
 
-		var bw:Int = Std.int(FlxG.width - (FlxG.width / camZoom));
-		var bh:Int = Std.int(FlxG.height - (FlxG.height / camZoom));
+		var bwa:Int = Std.int(FlxG.width - (FlxG.width / camZoom));
+		var bha:Int = Std.int(FlxG.height - (FlxG.height / camZoom));
+
+		var bw:Int = 0;
+		var bh:Int = 0;
+		while(bwa < 0) {
+			bwa += ssw;
+			bw -= ssw;
+		}
+		while(bha < 0) {
+			bha += ssh;
+			bh -= ssh;
+		}
 
 		var frameBitmap:BitmapData = null;
 
@@ -268,6 +280,12 @@ class FlxBackdrop extends FlxSprite
 
 		_ppoint.x = bw;
 		_ppoint.y = bh;
+
+		// Somewhat reduces drawn tiles
+		if (repeatX)
+			w -= Std.int(FlxG.width / camZoom / 2);
+		if (repeatY)
+			h -= Std.int(FlxG.height / camZoom / 2);
 
 		if (FlxG.renderBlit)
 		{

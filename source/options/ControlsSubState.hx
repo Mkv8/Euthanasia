@@ -1,8 +1,5 @@
 package options;
 
-#if desktop
-import Discord.DiscordClient;
-#end
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -193,7 +190,7 @@ class ControlsSubState extends MusicBeatSubstate {
 		}
 		return num;
 	}
-	
+
 	function changeSelection(change:Int = 0) {
 		do {
 			curSelected += change;

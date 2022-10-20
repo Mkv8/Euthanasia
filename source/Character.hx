@@ -8,7 +8,6 @@ import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
-import Section.SwagSection;
 #if MODS_ALLOWED
 import sys.io.File;
 import sys.FileSystem;
@@ -127,10 +126,10 @@ class Character extends FlxSprite
 				#if MODS_ALLOWED
 				var modTxtToFind:String = Paths.modsTxt(json.image);
 				var txtToFind:String = Paths.getPath('images/' + json.image + '.txt', TEXT);
-				
+
 				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
-				
+
 				if (FileSystem.exists(modTxtToFind) || FileSystem.exists(txtToFind) || Assets.exists(txtToFind))
 				#else
 				if (Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT)))
@@ -138,14 +137,14 @@ class Character extends FlxSprite
 				{
 					spriteType = "packer";
 				}
-				
+
 				#if MODS_ALLOWED
 				var modAnimToFind:String = Paths.modFolders('images/' + json.image + '/Animation.json');
 				var animToFind:String = Paths.getPath('images/' + json.image + '/Animation.json', TEXT);
-				
+
 				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
-				
+
 				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(animToFind) || Assets.exists(animToFind))
 				#else
 				if (Assets.exists(Paths.getPath('images/' + json.image + '/Animation.json', TEXT)))
@@ -155,13 +154,13 @@ class Character extends FlxSprite
 				}
 
 				switch (spriteType){
-					
+
 					case "packer":
 						frames = Paths.getPackerAtlas(json.image);
-					
+
 					case "sparrow":
 						frames = Paths.getSparrowAtlas(json.image);
-					
+
 					case "texture":
 						frames = AtlasFrameMaker.construct(json.image);
 				}

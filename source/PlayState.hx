@@ -2,12 +2,7 @@ package;
 
 import flixel.util.FlxDestroyUtil;
 import flixel.graphics.FlxGraphic;
-#if desktop
-import Discord.DiscordClient;
-#end
-import Section.SwagSection;
 import Song.SwagSong;
-import WiggleEffect.WiggleEffectType;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -18,10 +13,6 @@ import flixel.FlxState;
 import flixel.FlxSubState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.FlxTrailArea;
-import flixel.addons.effects.chainable.FlxEffectSprite;
-import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -52,17 +43,17 @@ import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import Note.EventNote;
 import openfl.events.KeyboardEvent;
-import flixel.effects.particles.FlxEmitter;
-import flixel.effects.particles.FlxParticle;
 import flixel.util.FlxSave;
 import animateatlas.AtlasFrameMaker;
+#if ACHIEVEMENTS_ALLOWED
 import Achievements;
+#end
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
 import Conductor.Rating;
 
-#if !flash 
+#if !flash
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 #end
@@ -99,7 +90,6 @@ class PlayState extends MusicBeatState
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
 
-	#if (haxe >= "4.0.0")
 	public var boyfriendMap:Map<String, Boyfriend> = new Map();
 	public var dadMap:Map<String, Character> = new Map();
 	public var gfMap:Map<String, Character> = new Map();
@@ -110,18 +100,6 @@ class PlayState extends MusicBeatState
 	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
 	public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
-	#else
-	public var boyfriendMap:Map<String, Boyfriend> = new Map<String, Boyfriend>();
-	public var dadMap:Map<String, Character> = new Map<String, Character>();
-	public var gfMap:Map<String, Character> = new Map<String, Character>();
-	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
-	public var modchartTweens:Map<String, FlxTween> = new Map();
-	public var modchartSprites:Map<String, ModchartSprite> = new Map();
-	public var modchartTimers:Map<String, FlxTimer> = new Map();
-	public var modchartSounds:Map<String, FlxSound> = new Map();
-	public var modchartTexts:Map<String, ModchartText> = new Map();
-	public var modchartSaves:Map<String, FlxSave> = new Map();
-	#end
 
 	public var BF_X:Float = 770;
 	public var BF_Y:Float = 100;
@@ -221,7 +199,7 @@ class PlayState extends MusicBeatState
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
 
-	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
+	var dialogue:Array<String> = null;
 	var dialogueJson:DialogueFile = null;
 
 	var heyTimer:Float;
@@ -393,7 +371,7 @@ class PlayState extends MusicBeatState
 		bubbles.antialiasing = ClientPrefs.globalAntialiasing;
 		bubbles.alpha = 0;
 		bubbles.camZoom = 0.7;
-		bubbles.x += 720/1.3;
+		//bubbles.x += 720/1.3;
 
 		hyperstars = new FlxBackdrop(Paths.image('hyper'), 0.2, 0, true, true);
 		hyperstars.velocity.set(1000, -100);
@@ -402,7 +380,7 @@ class PlayState extends MusicBeatState
 		hyperstars.antialiasing = ClientPrefs.globalAntialiasing;
 		hyperstars.alpha = 0;
 		hyperstars.camZoom = 0.7;
-		hyperstars.x += 720/1.3;
+		//hyperstars.x += 720/1.3;
 
 		blacksquare = new BGSprite(null, 0, -0, 0, 0);
 		blacksquare.makeGraphic(1, 1, FlxColor.BLACK);
@@ -519,7 +497,7 @@ class PlayState extends MusicBeatState
 				sstatic.alpha = 0;
 
 				add(sstatic);
-		
+
 				stars = new BGSprite('stars', 0, 0, 1, 1);
 				stars.updateHitbox();
 				stars.screenCenter(XY);
@@ -534,7 +512,7 @@ class PlayState extends MusicBeatState
 				cross.antialiasing = ClientPrefs.globalAntialiasing;
 				cross.alpha = 0;
 				cross.camZoom = 0.7;
-				cross.x += 720/1.3;
+				//cross.x += 720/1.3;
 
 				add(cross);
 
@@ -551,13 +529,13 @@ class PlayState extends MusicBeatState
 				spooky.scale.set(1.20, 1.20);
 
 				add(spooky);
-				
+
 				pico = new BGSprite('pico', -250, -80, 0.9, 0.9);
 				pico.alpha = 0;
 				pico.scale.set(1.20, 1.20);
 
 				add(pico);
-				
+
 				bglimo = new BGSprite('limooo', -250, -80, 0.9, 0.9);
 				bglimo.alpha = 0;
 				bglimo.scale.set(1.20, 1.20);
@@ -954,11 +932,6 @@ class PlayState extends MusicBeatState
 		setupStepEvents();
 		setupBeatEvents();
 
-		// if (SONG.song == 'South')
-		// FlxG.camera.alpha = 0.7;
-		// UI_camera.zoom = 1;
-
-		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
 
 		// SONG SPECIFIC SCRIPTS
@@ -1020,7 +993,7 @@ class PlayState extends MusicBeatState
 		}
 
 		precacheList.set('alphabet', 'image');
-	
+
 		#if desktop
 		// Updating Discord Rich Presence.
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -1053,7 +1026,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 		Paths.clearUnusedMemory();
-		
+
 		CustomFadeTransition.nextCamera = camOther;
 
 		add(blacksquare);
@@ -1096,7 +1069,7 @@ class PlayState extends MusicBeatState
 
 		for(mod in Paths.getGlobalMods())
 			foldersToCheck.insert(0, Paths.mods(mod + '/shaders/'));
-		
+
 		for (folder in foldersToCheck)
 		{
 			if(FileSystem.exists(folder))
@@ -1346,10 +1319,10 @@ class PlayState extends MusicBeatState
 
 		var introAlts:Array<String> = introAssets.get('default');
 		if (isPixelStage) introAlts = introAssets.get('pixel');
-		
+
 		for (asset in introAlts)
 			Paths.image(asset);
-		
+
 		Paths.sound('intro3' + introSoundsSuffix);
 		Paths.sound('intro2' + introSoundsSuffix);
 		Paths.sound('intro1' + introSoundsSuffix);
@@ -1649,7 +1622,7 @@ class PlayState extends MusicBeatState
 
 		switch(curStage)
 		{
-			
+
 		}
 
 		#if desktop
@@ -1855,8 +1828,7 @@ class PlayState extends MusicBeatState
 		}
 
 		switch(event.event) {
-			case 'Kill Henchmen': //Better timing so that the kill sound matches the beat intended
-				return 280; //Plays 280ms before the actual position
+
 		}
 		return 0;
 	}
@@ -2079,7 +2051,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		rainbars.x = boyfriend.x - 50 + 720/1.3;
+		rainbars.x = boyfriend.x - 50;// + 720/1.3;
 		/*if (FlxG.keys.justPressed.NINE)
 		{
 			iconP1.swapOldIcon();
@@ -2186,8 +2158,6 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-
-			// Conductor.lastSongPos = FlxG.sound.music.time;
 		}
 
 		if (camZooming)
@@ -2412,20 +2382,11 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 		paused = true;
 
-		// 1 / 1000 chance for Gitaroo Man easter egg
-		/*if (FlxG.random.bool(0.1))
-		{
-			// gitaroo man easter egg
-			cancelMusicFadeTween();
-			MusicBeatState.switchState(new GitarooPause());
-		}
-		else {*/
 		if(FlxG.sound.music != null) {
 			FlxG.sound.music.pause();
 			vocals.pause();
 		}
-		openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-		//}
+		openSubState(new PauseSubState());
 
 		#if desktop
 		DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -2467,7 +2428,7 @@ class PlayState extends MusicBeatState
 				for (timer in modchartTimers) {
 					timer.active = true;
 				}
-				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollowPos.x, camFollowPos.y));
+				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1]));
 
 				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
@@ -3029,7 +2990,7 @@ class PlayState extends MusicBeatState
 		Paths.image(pixelShitPart1 + "good" + pixelShitPart2);
 		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2);
 		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2);
-		
+
 		for (i in 0...10) {
 			Paths.image(pixelShitPart1 + 'num' + i + pixelShitPart2);
 		}
@@ -3379,7 +3340,7 @@ class PlayState extends MusicBeatState
 		});
 		combo = 0;
 		health -= daNote.missHealth * healthLoss;
-		
+
 		if(instakillOnMiss)
 		{
 			vocals.volume = 0;
@@ -3683,7 +3644,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public static function cancelMusicFadeTween() {
-		if(FlxG.sound.music == null) return; 
+		if(FlxG.sound.music == null) return;
 		if(FlxG.sound.music.fadeTween != null) {
 			FlxG.sound.music.fadeTween.cancel();
 		}
@@ -4082,7 +4043,7 @@ class PlayState extends MusicBeatState
 			setOnLuas('altAnim', SONG.notes[curSection].altAnim);
 			setOnLuas('gfSection', SONG.notes[curSection].gfSection);
 		}
-		
+
 		setOnLuas('curSection', curSection);
 		callOnLuas('onSectionHit', []);
 	}
@@ -4098,7 +4059,7 @@ class PlayState extends MusicBeatState
 			var ret:Dynamic = script.call(event, args);
 			if(ret == FunkinLua.Function_StopLua && !ignoreStops)
 				break;
-			
+
 			// had to do this because there is a bug in haxe where Stop != Continue doesnt work
 			var bool:Bool = ret == FunkinLua.Function_Continue;
 			if(!bool) {
@@ -4272,7 +4233,7 @@ class PlayState extends MusicBeatState
 	var curLightEvent:Int = -1;
 }
 
-class StepEvent 
+class StepEvent
 {
 	public var step:Int = 0;
 	public var callback:Void->Void;
@@ -4283,7 +4244,7 @@ class StepEvent
 		callback = daCallback;
 	}
 }
-class BeatEvent 
+class BeatEvent
 {
 	public var beat:Int = 0;
 	public var callback:Void->Void;

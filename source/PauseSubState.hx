@@ -33,7 +33,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var songName:String = '';
 
-	public function new(x:Float, y:Float)
+	public function new()
 	{
 		super();
 		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
@@ -41,7 +41,7 @@ class PauseSubState extends MusicBeatSubstate
 		if(PlayState.chartingMode)
 		{
 			menuItemsOG.insert(2, 'Leave Charting Mode');
-			
+
 			var num:Int = 0;
 			if(!PlayState.instance.startingSong)
 			{
@@ -370,7 +370,7 @@ class PauseSubState extends MusicBeatSubstate
 		curSelected = 0;
 		changeSelection();
 	}
-	
+
 	function updateSkipTextStuff()
 	{
 		if(skipTimeText == null || skipTimeTracker == null) return;

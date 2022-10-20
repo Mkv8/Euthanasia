@@ -14,12 +14,9 @@ using StringTools;
  */
 class FlxFixedText extends FlxText
 {
-	//public var init:Bool = true;
-
 	override function regenGraphic():Void
 	{
-		if (textField == null || !_regen/* || init*/) {
-			//init = false;
+		if (textField == null || !_regen) {
 			return;
 		}
 

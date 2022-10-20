@@ -1,8 +1,5 @@
 package;
 
-#if desktop
-import Discord.DiscordClient;
-#end
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -48,7 +45,7 @@ class CreditsState extends MusicBeatState
 		bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
 		add(bg);
 		bg.screenCenter();
-		
+
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
@@ -113,11 +110,11 @@ class CreditsState extends MusicBeatState
 			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								'https://twitter.com/evilsk8r',			'5ABD4B'],
 			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7']
 		];
-		
+
 		for(i in pisspoop){
 			creditsStuff.push(i);
 		}
-	
+
 		for (i in 0...creditsStuff.length)
 		{
 			var isSelectable:Bool = !unselectableCheck(i);
@@ -137,7 +134,7 @@ class CreditsState extends MusicBeatState
 				var icon:AttachedSprite = new AttachedSprite('credits/' + creditsStuff[i][1]);
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
-	
+
 				// using a FlxGroup is too much fuss!
 				iconArray.push(icon);
 				add(icon);
@@ -147,7 +144,7 @@ class CreditsState extends MusicBeatState
 			}
 			else optionText.alignment = CENTERED;
 		}
-		
+
 		descBox = new AttachedSprite();
 		descBox.makeSolid(1, 1, FlxColor.BLACK);
 		descBox.xAdd = -10;
@@ -225,7 +222,7 @@ class CreditsState extends MusicBeatState
 				quitting = true;
 			}
 		}
-		
+
 		for (item in grpOptions.members)
 		{
 			if(!item.bold)

@@ -106,7 +106,7 @@ class DialogueCharacter extends FlxSprite
 		var path:String = Paths.getPreloadPath(characterPath);
 		rawJson = Assets.getText(path);
 		#end
-		
+
 		jsonFile = cast Json.parse(rawJson);
 	}
 
@@ -181,7 +181,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 	var offsetPos:Float = -600;
 
 	var textBoxTypes:Array<String> = ['normal', 'angry'];
-	
+
 	var curCharacter:String = "";
 	//var charPositionList:Array<String> = ['left', 'center', 'right'];
 
@@ -193,7 +193,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 			FlxG.sound.playMusic(Paths.music(song), 0);
 			FlxG.sound.music.fadeIn(2, 0, 1);
 		}
-		
+
 		bgFade = new FlxSpriteExtra(-500, -500).makeSolid(FlxG.width * 2, FlxG.height * 2, FlxColor.WHITE);
 		bgFade.scrollFactor.set();
 		bgFade.visible = true;
@@ -530,7 +530,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		} else {
 			box.offset.set(10, 0);
 		}
-		
+
 		if(!box.flipX) box.offset.y += 10;
 	}
 }

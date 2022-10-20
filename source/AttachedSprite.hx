@@ -44,7 +44,7 @@ class AttachedSprite extends FlxSpriteExtra
 			if(copyAlpha)
 				alpha = sprTracker.alpha * alphaMult;
 
-			if(copyVisible) 
+			if(copyVisible)
 				visible = sprTracker.visible;
 		}
 	}

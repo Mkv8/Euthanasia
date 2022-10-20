@@ -27,10 +27,6 @@ import Type.ValueType;
 import Controls;
 import DialogueBoxPsych;
 
-#if desktop
-import Discord;
-#end
-
 using StringTools;
 
 class EditorLua {
@@ -180,12 +176,12 @@ class EditorLua {
 			}
 		});
 
-		Discord.DiscordClient.addLuaCallbacks(lua);
+		DiscordClient.addLuaCallbacks(lua);
 
 		call('onCreate', []);
 		#end
 	}
-	
+
 	public function call(event:String, args:Array<Dynamic>):Dynamic {
 		#if LUA_ALLOWED
 		if(lua == null) {
