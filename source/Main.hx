@@ -81,6 +81,8 @@ class Main extends Sprite
 
 		var initialState:Class<FlxState> = TitleState; // The FlxState the game starts with.
 
+		HeaderCompilationBypass.setWindowToDarkMode();
+
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 

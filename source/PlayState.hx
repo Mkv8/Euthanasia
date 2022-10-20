@@ -2494,26 +2494,26 @@ class PlayState extends MusicBeatState
 			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
 			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
 
-			if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)
-			{
-				cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
-					function (twn:FlxTween)
-					{
-						cameraTwn = null;
-					}
-				});
-			}
+			//if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)
+			//{
+			//	cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
+			//		function (twn:FlxTween)
+			//		{
+			//			cameraTwn = null;
+			//		}
+			//	});
+			//}
 		}
 	}
 
 	function tweenCamIn() {
-		if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1.3) {
-			cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
-				function (twn:FlxTween) {
-					cameraTwn = null;
-				}
-			});
-		}
+		//if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1.3) {
+		//	cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
+		//		function (twn:FlxTween) {
+		//			cameraTwn = null;
+		//		}
+		//	});
+		//}
 	}
 
 	function snapCamFollowToPos(x:Float, y:Float) {
@@ -2537,7 +2537,6 @@ class PlayState extends MusicBeatState
 			});
 		}
 	}
-
 
 	public var transitioning = false;
 	public function endSong():Void
@@ -2643,7 +2642,15 @@ class PlayState extends MusicBeatState
 			}
 			else*/
 			{
-				trace('WENT BACK TO FREEPLAY??');
+				HeaderCompilationBypass.setWindowTransparency(0);
+				new FlxTimer().start(1.5, (_) -> {
+					HeaderCompilationBypass.showMessagePopup("Error", "Null Object Reference\n\nLine 42: universe.update();", MSG_ERROR);
+					new FlxTimer().start(1, (_) -> {
+						MusicBeatState.switchState(new Restoring());
+					});
+				});
+
+				/*trace('WENT BACK TO FREEPLAY??');
 				WeekData.loadTheFirstEnabledMod();
 				cancelMusicFadeTween();
 				if(FlxTransitionableState.skipNextTransIn) {
@@ -2651,6 +2658,7 @@ class PlayState extends MusicBeatState
 				}
 				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				*/
 				changedDifficulty = false;
 			}
 			transitioning = true;

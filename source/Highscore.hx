@@ -74,14 +74,14 @@ class Highscore
 	static function setScore(song:String, score:Int):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
-		songScores.set(song, score);
+		//songScores.set(song, score);
 		FlxG.save.data.songScores = songScores;
 		FlxG.save.flush();
 	}
 	static function setWeekScore(week:String, score:Int):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
-		weekScores.set(week, score);
+		//weekScores.set(week, score);
 		FlxG.save.data.weekScores = weekScores;
 		FlxG.save.flush();
 	}
@@ -89,7 +89,7 @@ class Highscore
 	static function setRating(song:String, rating:Float):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
-		songRating.set(song, rating);
+		//songRating.set(song, rating);
 		FlxG.save.data.songRating = songRating;
 		FlxG.save.flush();
 	}
@@ -101,29 +101,32 @@ class Highscore
 
 	public static function getScore(song:String, diff:Int):Int
 	{
-		var daSong:String = formatSong(song, diff);
+		return 0;
+		/*var daSong:String = formatSong(song, diff);
 		if (!songScores.exists(daSong))
 			return 0;
 
-		return songScores.get(daSong);
+		return songScores.get(daSong);*/
 	}
 
 	public static function getRating(song:String, diff:Int):Float
 	{
-		var daSong:String = formatSong(song, diff);
+		return 0;
+		/*var daSong:String = formatSong(song, diff);
 		if (!songRating.exists(daSong))
 			return 0;
 
-		return songRating.get(daSong);
+		return songRating.get(daSong);*/
 	}
 
 	public static function getWeekScore(week:String, diff:Int):Int
 	{
-		var daWeek:String = formatSong(week, diff);
+		return 0;
+		/*var daWeek:String = formatSong(week, diff);
 		if (!weekScores.exists(daWeek))
 			return 0;
 
-		return weekScores.get(daWeek);
+		return weekScores.get(daWeek);*/
 	}
 
 	public static function load():Void
