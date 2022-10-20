@@ -60,7 +60,6 @@ class ChartingState extends MusicBeatState
 		'Alt Animation',
 		'Hey!',
 		'Hurt Note',
-		'GF Sing',
 		'No Animation'
 	];
 	private var noteTypeIntMap:Map<Int, String> = new Map<Int, String>();
@@ -74,11 +73,11 @@ class ChartingState extends MusicBeatState
 		['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
 		['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
 		['Add Camera Zoom', "Used on MILF on that one \"hard\" part\nValue 1: Camera zoom add (Default: 0.015)\nValue 2: UI zoom add (Default: 0.03)\nLeave the values blank if you want to use Default."],
-		['Play Animation', "Plays an animation on a Character,\nonce the animation is completed,\nthe animation changes to Idle\n\nValue 1: Animation to play.\nValue 2: Character (Dad, BF, GF)"],
+		['Play Animation', "Plays an animation on a Character,\nonce the animation is completed,\nthe animation changes to Idle\n\nValue 1: Animation to play.\nValue 2: Character (Dad, BF)"],
 		['Camera Follow Pos', "Value 1: X\nValue 2: Y\n\nThe camera won't change the follow point\nafter using this, for getting it back\nto normal, leave both values blank."],
-		['Alt Idle Animation', "Sets a specified suffix after the idle animation name.\nYou can use this to trigger 'idle-alt' if you set\nValue 2 to -alt\n\nValue 1: Character to set (Dad, BF or GF)\nValue 2: New suffix (Leave it blank to disable)"],
+		['Alt Idle Animation', "Sets a specified suffix after the idle animation name.\nYou can use this to trigger 'idle-alt' if you set\nValue 2 to -alt\n\nValue 1: Character to set (Dad, BF)\nValue 2: New suffix (Leave it blank to disable)"],
 		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
-		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
+		['Change Character', "Value 1: Character to change (Dad, BF)\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"]
 	];
@@ -208,7 +207,6 @@ class ChartingState extends MusicBeatState
 				splashSkin: 'noteSplashes',//idk it would crash if i didn't
 				player1: 'bf',
 				player2: 'dad',
-				gfVersion: 'gf',
 				speed: 1,
 				stage: 'stage',
 				validScore: false
@@ -516,15 +514,7 @@ class ChartingState extends MusicBeatState
 		player1DropDown.selectedLabel = _song.player1;
 		blockPressWhileScrolling.push(player1DropDown);
 
-		var gfVersionDropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
-		{
-			_song.gfVersion = characters[Std.parseInt(character)];
-			updateHeads();
-		});
-		gfVersionDropDown.selectedLabel = _song.gfVersion;
-		blockPressWhileScrolling.push(gfVersionDropDown);
-
-		var player2DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, gfVersionDropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
+		var player2DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
 			_song.player2 = characters[Std.parseInt(character)];
 			updateHeads();
@@ -612,13 +602,11 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Song Offset:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
-		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
 		tab_group_song.add(new FlxText(noteSkinInputText.x, noteSkinInputText.y - 15, 0, 'Note Texture:'));
 		tab_group_song.add(new FlxText(noteSplashesInputText.x, noteSplashesInputText.y - 15, 0, 'Note Splashes Texture:'));
 		tab_group_song.add(player2DropDown);
-		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(stageDropDown);
 
@@ -629,7 +617,6 @@ class ChartingState extends MusicBeatState
 
 	var stepperBeats:FlxUINumericStepper;
 	var check_mustHitSection:FlxUICheckBox;
-	var check_gfSection:FlxUICheckBox;
 	var check_changeBPM:FlxUICheckBox;
 	var stepperSectionBPM:FlxUINumericStepper;
 	var check_altAnim:FlxUICheckBox;
@@ -646,12 +633,7 @@ class ChartingState extends MusicBeatState
 		check_mustHitSection.name = 'check_mustHit';
 		check_mustHitSection.checked = _song.notes[curSec].mustHitSection;
 
-		check_gfSection = new FlxUICheckBox(10, check_mustHitSection.y + 22, null, null, "GF section", 100);
-		check_gfSection.name = 'check_gf';
-		check_gfSection.checked = _song.notes[curSec].gfSection;
-		// _song.needsVoices = check_mustHit.checked;
-
-		check_altAnim = new FlxUICheckBox(check_gfSection.x + 120, check_gfSection.y, null, null, "Alt Animation", 100);
+		check_altAnim = new FlxUICheckBox(10 + 120, check_mustHitSection.y + 22, null, null, "Alt Animation", 100);
 		check_altAnim.checked = _song.notes[curSec].altAnim;
 
 		stepperBeats = new FlxUINumericStepper(10, 100, 1, 4, 1, 6, 2);
@@ -880,7 +862,6 @@ class ChartingState extends MusicBeatState
 		tab_group_section.add(stepperBeats);
 		tab_group_section.add(stepperSectionBPM);
 		tab_group_section.add(check_mustHitSection);
-		tab_group_section.add(check_gfSection);
 		tab_group_section.add(check_altAnim);
 		tab_group_section.add(check_changeBPM);
 		tab_group_section.add(copyButton);
@@ -1386,12 +1367,6 @@ class ChartingState extends MusicBeatState
 			{
 				case 'Must hit section':
 					_song.notes[curSec].mustHitSection = check.checked;
-
-					updateGrid();
-					updateHeads();
-
-				case 'GF section':
-					_song.notes[curSec].gfSection = check.checked;
 
 					updateGrid();
 					updateHeads();
@@ -2421,7 +2396,6 @@ class ChartingState extends MusicBeatState
 
 		stepperBeats.value = getSectionBeats();
 		check_mustHitSection.checked = sec.mustHitSection;
-		check_gfSection.checked = sec.gfSection;
 		check_altAnim.checked = sec.altAnim;
 		check_changeBPM.checked = sec.changeBPM;
 		stepperSectionBPM.value = sec.bpm;
@@ -2438,13 +2412,11 @@ class ChartingState extends MusicBeatState
 		{
 			leftIcon.changeIcon(healthIconP1);
 			rightIcon.changeIcon(healthIconP2);
-			if (_song.notes[curSec].gfSection) leftIcon.changeIcon('gf');
 		}
 		else
 		{
 			leftIcon.changeIcon(healthIconP2);
 			rightIcon.changeIcon(healthIconP1);
-			if (_song.notes[curSec].gfSection) leftIcon.changeIcon('gf');
 		}
 	}
 
@@ -2684,7 +2656,6 @@ class ChartingState extends MusicBeatState
 			bpm: _song.bpm,
 			changeBPM: false,
 			mustHitSection: true,
-			gfSection: false,
 			sectionNotes: [],
 			altAnim: false
 		};

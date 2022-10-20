@@ -58,7 +58,6 @@ class Note extends FlxSprite
 	public var inEditor:Bool = false;
 
 	public var animSuffix:String = '';
-	public var gfNote:Bool = false;
 	public var earlyHitMult:Float = 0.5;
 	public var lateHitMult:Float = 1;
 	public var lowPriority:Bool = false;
@@ -156,8 +155,6 @@ class Note extends FlxSprite
 				case 'No Animation':
 					noAnimation = true;
 					noMissAnimation = true;
-				case 'GF Sing':
-					gfNote = true;
 			}
 			noteType = value;
 		}

@@ -44,7 +44,6 @@ import sys.io.File;
 
 import Type.ValueType;
 import Controls;
-import DialogueBoxPsych;
 
 #if hscript
 import hscript.Parser;
@@ -179,13 +178,10 @@ class FunkinLua {
 		set('defaultBoyfriendY', PlayState.instance.BF_Y);
 		set('defaultOpponentX', PlayState.instance.DAD_X);
 		set('defaultOpponentY', PlayState.instance.DAD_Y);
-		set('defaultGirlfriendX', PlayState.instance.GF_X);
-		set('defaultGirlfriendY', PlayState.instance.GF_Y);
 
 		// Character shit
 		set('boyfriendName', PlayState.SONG.player1);
 		set('dadName', PlayState.SONG.player2);
-		set('gfName', PlayState.SONG.gfVersion);
 
 		// Some settings, no jokes
 		set('downscroll', ClientPrefs.downScroll);
@@ -1546,10 +1542,10 @@ class FunkinLua {
 			if(FlxTransitionableState.skipNextTransIn)
 				CustomFadeTransition.nextCamera = null;
 
-			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
-			else
-				MusicBeatState.switchState(new FreeplayState());
+			//if(PlayState.isStoryMode)
+			//	MusicBeatState.switchState(new StoryMenuState());
+			//else
+			MusicBeatState.switchState(new FreeplayState());
 
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			PlayState.changedDifficulty = false;
@@ -1566,8 +1562,6 @@ class FunkinLua {
 			switch(type.toLowerCase()) {
 				case 'dad' | 'opponent':
 					return PlayState.instance.dadGroup.x;
-				case 'gf' | 'girlfriend':
-					return PlayState.instance.gfGroup.x;
 				default:
 					return PlayState.instance.boyfriendGroup.x;
 			}
@@ -1576,8 +1570,6 @@ class FunkinLua {
 			switch(type.toLowerCase()) {
 				case 'dad' | 'opponent':
 					PlayState.instance.dadGroup.x = value;
-				case 'gf' | 'girlfriend':
-					PlayState.instance.gfGroup.x = value;
 				default:
 					PlayState.instance.boyfriendGroup.x = value;
 			}
@@ -1586,8 +1578,6 @@ class FunkinLua {
 			switch(type.toLowerCase()) {
 				case 'dad' | 'opponent':
 					return PlayState.instance.dadGroup.y;
-				case 'gf' | 'girlfriend':
-					return PlayState.instance.gfGroup.y;
 				default:
 					return PlayState.instance.boyfriendGroup.y;
 			}
@@ -1596,8 +1586,6 @@ class FunkinLua {
 			switch(type.toLowerCase()) {
 				case 'dad' | 'opponent':
 					PlayState.instance.dadGroup.y = value;
-				case 'gf' | 'girlfriend':
-					PlayState.instance.gfGroup.y = value;
 				default:
 					PlayState.instance.boyfriendGroup.y = value;
 			}
@@ -1705,7 +1693,6 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "characterDance", function(character:String) {
 			switch(character.toLowerCase()) {
 				case 'dad': PlayState.instance.dad.dance();
-				case 'gf' | 'girlfriend': if(PlayState.instance.gf != null) PlayState.instance.gf.dance();
 				default: PlayState.instance.boyfriend.dance();
 			}
 		});
@@ -1877,10 +1864,8 @@ class FunkinLua {
 						}
 						else
 						{
-							var position:Int = PlayState.instance.members.indexOf(PlayState.instance.gfGroup);
-							if(PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup) < position) {
-								position = PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup);
-							} else if(PlayState.instance.members.indexOf(PlayState.instance.dadGroup) < position) {
+							var position:Int = PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup);
+							if(PlayState.instance.members.indexOf(PlayState.instance.dadGroup) < position) {
 								position = PlayState.instance.members.indexOf(PlayState.instance.dadGroup);
 							}
 							PlayState.instance.insert(position, shit);
@@ -2144,40 +2129,6 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "getRandomBool", function(chance:Float = 50) {
 			return FlxG.random.bool(chance);
-		});
-		Lua_helper.add_callback(lua, "startDialogue", function(dialogueFile:String, music:String = null) {
-			var path:String;
-			#if MODS_ALLOWED
-			path = Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
-			if(!FileSystem.exists(path))
-			#end
-				path = Paths.json(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
-
-			luaTrace('Trying to load dialogue: ' + path);
-
-			#if MODS_ALLOWED
-			if(FileSystem.exists(path))
-			#else
-			if(Assets.exists(path))
-			#end
-			{
-				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
-				if(shit.dialogue.length > 0) {
-					PlayState.instance.startDialogue(shit, music);
-					luaTrace('Successfully loaded dialogue', false, false, FlxColor.GREEN);
-					return true;
-				} else {
-					luaTrace('Your dialogue file is badly formatted!', false, false, FlxColor.RED);
-				}
-			} else {
-				luaTrace('Dialogue file not found', false, false, FlxColor.RED);
-				if(PlayState.instance.endingSong) {
-					PlayState.instance.endSong();
-				} else {
-					PlayState.instance.startCountdown();
-				}
-			}
-			return false;
 		});
 		Lua_helper.add_callback(lua, "startVideo", function(videoFile:String) {
 			#if VIDEOS_ALLOWED
@@ -2585,9 +2536,6 @@ class FunkinLua {
 				case 'dad':
 					if(PlayState.instance.dad.animOffsets.exists(anim))
 						PlayState.instance.dad.playAnim(anim, forced);
-				case 'gf' | 'girlfriend':
-					if(PlayState.instance.gf != null && PlayState.instance.gf.animOffsets.exists(anim))
-						PlayState.instance.gf.playAnim(anim, forced);
 				default:
 					if(PlayState.instance.boyfriend.animOffsets.exists(anim))
 						PlayState.instance.boyfriend.playAnim(anim, forced);
