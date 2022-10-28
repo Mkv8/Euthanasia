@@ -42,7 +42,9 @@ class Restoring extends MusicBeatState
 			timeLeft -= elapsed;
 			if(timeLeft <= 0) {
 				FlxTween.tween(restoring, {alpha: 0}, 1, {onComplete: (_) -> {
-					MusicBeatState.switchState(new MainMenuState());
+					TitleState.initialized = false;
+					TitleState.closedState = false;
+					MusicBeatState.switchState(new TitleState());
 				}});
 			}
 		}

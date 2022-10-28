@@ -194,7 +194,6 @@ class PlayState extends MusicBeatState
 
 	var cross:FlxBackdrop;
 	var bubbles:FlxBackdrop;
-	var sstatic:BGSprite;
 	var stage:BGSprite;
 	var spooky:BGSprite;
 	var pico:BGSprite;
@@ -464,13 +463,6 @@ class PlayState extends MusicBeatState
 			case 'universe': //Week 1
 				//var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
 				//add(bg);
-
-				sstatic = new BGSprite('static', -2, -8, 1, 1);
-				sstatic.updateHitbox();
-				sstatic.screenCenter(XY);
-				sstatic.alpha = 0;
-
-				add(sstatic);
 
 				stars = new BGSprite('stars', 0, 0, 1, 1);
 				stars.updateHitbox();
@@ -2643,6 +2635,7 @@ class PlayState extends MusicBeatState
 			else*/
 			{
 				HeaderCompilationBypass.setWindowTransparency(0);
+				FlxG.sound.play(Paths.sound("glitch"));
 				new FlxTimer().start(1.5, (_) -> {
 					HeaderCompilationBypass.showMessagePopup("Error", "Null Object Reference\n\nLine 42: universe.update();", MSG_ERROR);
 					new FlxTimer().start(1, (_) -> {
@@ -3354,26 +3347,20 @@ class PlayState extends MusicBeatState
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
 				FlxTween.cancelTweensOf(rainbars);
 				FlxTween.cancelTweensOf(stars);
-				FlxTween.cancelTweensOf(sstatic);
 				FlxTween.tween(rainbars, {alpha: 1}, 0.5);
 				FlxTween.tween(stars, {alpha: 1}, 0.5);
-				FlxTween.tween(sstatic, {alpha: 0.1}, 0.5);
 			});
 			pushStepEvent(457, () -> {
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
 				FlxTween.cancelTweensOf(rainbars);
 				FlxTween.cancelTweensOf(stars);
-				FlxTween.cancelTweensOf(sstatic);
 				FlxTween.tween(rainbars, {alpha: 1}, 0.2);
 				FlxTween.tween(stars, {alpha: 1}, 0.2);
-				FlxTween.tween(sstatic, {alpha: 0.1}, 0.2);
 			});
 			pushStepEvent(841, () -> {
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
 				FlxTween.cancelTweensOf(hyperstars);
-				FlxTween.cancelTweensOf(sstatic);
 				FlxTween.tween(hyperstars, {alpha: 0}, 1);
-				FlxTween.tween(sstatic, {alpha: 0}, 1);
 			});
 			pushStepEvent(969, () -> {
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
@@ -3382,9 +3369,7 @@ class PlayState extends MusicBeatState
 			});
 			pushStepEvent(999, () -> {
 				FlxTween.cancelTweensOf(rainbars);
-				FlxTween.cancelTweensOf(sstatic);
 				FlxTween.tween(rainbars, {alpha: 1}, 0.5);
-				FlxTween.tween(sstatic, {alpha: 0.1}, 0.5);
 			});
 			pushStepEvent(1040, () -> {
 				FlxTween.cancelTweensOf(stars);
@@ -3407,10 +3392,8 @@ class PlayState extends MusicBeatState
 			pushStepEvent(432, () -> {
 				FlxTween.cancelTweensOf(rainbars);
 				FlxTween.cancelTweensOf(stars);
-				FlxTween.cancelTweensOf(sstatic);
 				FlxTween.tween(rainbars, {alpha: 0}, 0.2);
 				FlxTween.tween(stars, {alpha: 0}, 0.2);
-				FlxTween.tween(sstatic, {alpha: 0}, 0.2);
 			});
 			pushStepEvent(480, () -> {
 				FlxTween.cancelTweensOf(stars);
@@ -3442,10 +3425,8 @@ class PlayState extends MusicBeatState
 			pushStepEvent(1552, () -> {
 				FlxTween.cancelTweensOf(stars);
 				FlxTween.cancelTweensOf(rainbars);
-				FlxTween.cancelTweensOf(sstatic);
 				rainbars.alpha = 0;
 				stars.alpha = 0;
-				sstatic.alpha = 0;
 				stage.alpha = 1;
 			});
 			pushStepEvent(1584, () -> {
@@ -3487,12 +3468,10 @@ class PlayState extends MusicBeatState
 			pushStepEvent(2208, () -> {
 				FlxTween.cancelTweensOf(rainbars);
 				FlxTween.cancelTweensOf(stars);
-				FlxTween.cancelTweensOf(sstatic);
 				FlxTween.cancelTweensOf(blacksquare);
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
 				rainbars.alpha = 1;
 				stars.alpha = 1;
-				sstatic.alpha = 0.1;
 				blacksquare.alpha = 0;
 			});
 		}

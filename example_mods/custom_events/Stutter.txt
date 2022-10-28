@@ -1,0 +1,6 @@
+Makes the notes stutter
+
+Value 1: Use this at 0.3 for best results. (length
+of stutter)
+
+Value 2: nothin
