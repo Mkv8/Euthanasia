@@ -115,8 +115,8 @@ function onCreate()
  
 
 	if sideHealthbar then
-		makeLuaText("youv", 'Opponent -->' ,  2090, 10, 300);
-		makeLuaText("youe", 'You -->' ,  2200, 10, 365);
+		makeLuaText("youv", '' ,  2090, 10, 300);
+		makeLuaText("youe", '' ,  2200, 10, 365);
 
 		setTextSize('youe', 40);
 		addLuaText('youe');
