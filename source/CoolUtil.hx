@@ -145,7 +145,7 @@ class CoolUtil
 	/**
 	 * Modulo that works for negative numbers
 	 */
-	 public inline static function mod(n:Int, m:Int) {
+	public inline static function mod(n:Int, m:Int) {
 		return ((n % m) + m) % m;
 	}
 

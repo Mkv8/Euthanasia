@@ -233,6 +233,8 @@ class PlayState extends MusicBeatState
 
 	var spritesToDestroy:Array<FlxBasic> = [];
 
+	var curveShader = new CurveShader();
+
 	#if desktop
 	// Discord RPC variables
 	var storyDifficultyText:String = "";
@@ -320,6 +322,9 @@ class PlayState extends MusicBeatState
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
+
+		camGame.setFilters([new ShaderFilter(curveShader)]);
+		camHUD.setFilters([new ShaderFilter(curveShader)]);
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
@@ -3190,11 +3195,7 @@ class PlayState extends MusicBeatState
 				if(!note.noMissAnimation)
 				{
 					switch(note.noteType) {
-						case 'Hurt Note': //Hurt note
-							if(boyfriend.animation.getByName('hurt') != null) {
-								boyfriend.playAnim('hurt', true);
-								boyfriend.specialAnim = true;
-							}
+
 					}
 				}
 

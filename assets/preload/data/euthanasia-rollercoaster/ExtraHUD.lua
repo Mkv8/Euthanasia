@@ -114,7 +114,7 @@ function onCreate()
 	end
  
 
-	if sideHealthbar then
+	--[[if sideHealthbar then
 		makeLuaText("youv", '' ,  2090, 10, 300);
 		makeLuaText("youe", '' ,  2200, 10, 365);
 
@@ -122,7 +122,7 @@ function onCreate()
 		addLuaText('youe');
 		setTextSize('youv', 40);
 		addLuaText('youv');
-	end
+	end]]
 
 	if Fullstat then
 		makeLuaText("tnh", '', 250, tnhx, 259);
@@ -334,10 +334,10 @@ function onStepHit()
 	end
 
 	if stepEv == 1 and curStep >= 10 then
-		if sideHealthbar then
-			doTweenAlpha('youz', 'youe', 0, 2, 'linear')
-			doTweenAlpha('youx', 'youv', 0, 2, 'linear')
-		end
+		--if sideHealthbar then
+		--	doTweenAlpha('youz', 'youe', 0, 2, 'linear')
+		--	doTweenAlpha('youx', 'youv', 0, 2, 'linear')
+		--end
 		stepEv = stepEv + 1
 	end
 
