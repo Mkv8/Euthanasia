@@ -3350,6 +3350,11 @@ class PlayState extends MusicBeatState
 				FlxTween.cancelTweensOf(stars);
 				FlxTween.tween(rainbars, {alpha: 1}, 0.5);
 				FlxTween.tween(stars, {alpha: 1}, 0.5);
+
+			});
+			pushStepEvent(369, () -> {
+				FlxG.camera.flash(FlxColor.WHITE,1,false);
+				FlxTween.tween(curveShader, {effect: 0.5, zoom: 1.2}, 0.8);
 			});
 			pushStepEvent(457, () -> {
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
@@ -3358,15 +3363,57 @@ class PlayState extends MusicBeatState
 				FlxTween.tween(rainbars, {alpha: 1}, 0.2);
 				FlxTween.tween(stars, {alpha: 1}, 0.2);
 			});
+			pushStepEvent(729, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 8}, 0.5);
+
+			});
+			pushStepEvent(745, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 5}, 0.5);
+
+			});
+			pushStepEvent(761, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0, zoom: 1}, 0.5);
+
+			});
+			pushStepEvent(793, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 8}, 0.5);
+
+			});
+			pushStepEvent(825, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 0}, 1.3);
+
+			});
 			pushStepEvent(841, () -> {
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
 				FlxTween.cancelTweensOf(hyperstars);
 				FlxTween.tween(hyperstars, {alpha: 0}, 1);
 			});
+			pushStepEvent(847, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0.8, zoom: 1.2}, 1);
+
+			});
+			pushStepEvent(905, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 5}, 0.5);
+
+			});
+			pushStepEvent(929, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 8}, 0.5);
+
+			});
 			pushStepEvent(969, () -> {
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
+				FlxTween.cancelTweensOf(curveShader);
 				FlxTween.cancelTweensOf(cross);
 				FlxTween.tween(cross, {alpha: 0}, 1);
+				FlxTween.tween(curveShader, {chromOff: 0}, 0.2);
 			});
 			pushStepEvent(999, () -> {
 				FlxTween.cancelTweensOf(rainbars);
@@ -3375,6 +3422,215 @@ class PlayState extends MusicBeatState
 			pushStepEvent(1040, () -> {
 				FlxTween.cancelTweensOf(stars);
 				FlxTween.tween(stars, {alpha: 1}, 0.2);
+			});
+			pushStepEvent(1064, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0.4, zoom: 1.2}, 0.3);
+
+			});
+			pushStepEvent(1074, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0, zoom: 1}, 0.3);
+
+			});
+			pushStepEvent(1129, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0.4, zoom: 1.2}, 0.3);
+
+			});
+			pushStepEvent(1138, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0, zoom: 1}, 0.3);
+
+			});
+			pushStepEvent(1168, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0.4, zoom: 1.2}, 0.3);
+
+			});
+			pushStepEvent(1307, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(1308, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(1310, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(1316, () -> {
+				curveShader.chromOff = 0;
+			});
+			pushStepEvent(1324, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(1327, () -> {
+				curveShader.chromOff = 0;
+			});
+			pushStepEvent(1332, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(1334, () -> {
+				curveShader.chromOff = 0;
+			});
+			pushStepEvent(1336, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(1344, () -> {
+				curveShader.chromOff = 0;
+			});
+			pushStepEvent(1344, () -> {
+				curveShader.chromOff = 5;
+				curveShader.effect = 0.4;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(1373, () -> {
+				curveShader.chromOff = 0;
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+			});
+			pushStepEvent(1392, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(1398, () -> {
+				curveShader.effect = 0.4;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(1408, () -> {
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 0;
+			});
+			pushStepEvent(1449, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(1462, () -> {
+				curveShader.chromOff = 0;
+			});
+			pushStepEvent(1482, () -> {
+				curveShader.chromOff = 5;
+				curveShader.effect = 0.4;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(1496, () -> {
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 0;
+			});
+			pushStepEvent(1506, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(1522, () -> {
+				curveShader.effect = 0.4;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(1913, () -> {
+				FlxTween.tween(curveShader, {chromOff: 15}, 3.5);
+			});
+			pushStepEvent(2240, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {effect: 0.4, zoom: 1.2}, 0.8);
+			});
+			pushStepEvent(2240, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 5}, 0.8);
+			});
+			pushStepEvent(2336, () -> {
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2369, () -> {
+				curveShader.chromOff = 15;
+			});
+			pushStepEvent(2384, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2402, () -> {
+				curveShader.chromOff = 15;
+			});
+			pushStepEvent(2408, () -> {
+				curveShader.chromOff = 5;
+				curveShader.effect = 0.4;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(2416, () -> {
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2430, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2434, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2444, () -> {
+				curveShader.chromOff = 5;
+				curveShader.effect = 0.4;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(2458, () -> {
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2476, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2520, () -> {
+				curveShader.chromOff = 5;
+				curveShader.effect = 0.4;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(2528, () -> {
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2534, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2560, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2584, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2592, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2600, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2615, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2640, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2648, () -> {
+				curveShader.chromOff = 5;
+				curveShader.effect = 0.8;
+				curveShader.zoom = 1.2;
+			});
+			pushStepEvent(2672, () -> {
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2678, () -> {
+				curveShader.chromOff = 15;
+			});
+			pushStepEvent(2688, () -> {
+				curveShader.chromOff = 5;
+			});
+			pushStepEvent(2714, () -> {
+				curveShader.chromOff = 8;
+			});
+			pushStepEvent(2720, () -> {
+				FlxTween.cancelTweensOf(curveShader);
+				FlxTween.tween(curveShader, {chromOff: 0}, 2.8);
 			});
 		}
 	}
@@ -3393,8 +3649,11 @@ class PlayState extends MusicBeatState
 			pushStepEvent(432, () -> {
 				FlxTween.cancelTweensOf(rainbars);
 				FlxTween.cancelTweensOf(stars);
+				FlxTween.cancelTweensOf(curveShader);
 				FlxTween.tween(rainbars, {alpha: 0}, 0.2);
 				FlxTween.tween(stars, {alpha: 0}, 0.2);
+				FlxTween.tween(curveShader, {effect: 0, zoom: 1}, 0.8);
+
 			});
 			pushStepEvent(480, () -> {
 				FlxTween.cancelTweensOf(stars);
@@ -3415,9 +3674,11 @@ class PlayState extends MusicBeatState
 				FlxTween.cancelTweensOf(stars);
 				FlxTween.cancelTweensOf(rainbars);
 				FlxTween.cancelTweensOf(hyperstars);
+				FlxTween.cancelTweensOf(curveShader);
 				FlxTween.tween(stars, {alpha: 0}, 1);
 				FlxTween.tween(rainbars, {alpha: 0}, 1);
 				FlxTween.tween(hyperstars, {alpha: 1}, 0.5);
+				FlxTween.tween(curveShader, {effect: 0.4, zoom: 1.2, chromOff: 5}, 0.8);
 			});
 			pushStepEvent(860, () -> {
 				FlxTween.cancelTweensOf(cross);
@@ -3429,6 +3690,9 @@ class PlayState extends MusicBeatState
 				rainbars.alpha = 0;
 				stars.alpha = 0;
 				stage.alpha = 1;
+				curveShader.effect = 0;
+				curveShader.zoom = 1;
+				curveShader.chromOff = 8;
 			});
 			pushStepEvent(1584, () -> {
 				stage.alpha = 0;
@@ -3461,10 +3725,13 @@ class PlayState extends MusicBeatState
 			pushStepEvent(1808, () -> {
 				FlxG.camera.flash(FlxColor.WHITE,1,false);
 				spooky.alpha = 0;
+				curveShader.chromOff = 0;
 			});
 			pushStepEvent(2128, () -> {
 				FlxTween.cancelTweensOf(blacksquare);
+				FlxTween.cancelTweensOf(curveShader);
 				FlxTween.tween(blacksquare, {alpha: 1}, 3);
+				FlxTween.tween(curveShader, {chromOff: 0}, 3);
 			});
 			pushStepEvent(2208, () -> {
 				FlxTween.cancelTweensOf(rainbars);
