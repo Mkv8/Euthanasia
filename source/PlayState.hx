@@ -2640,8 +2640,13 @@ class PlayState extends MusicBeatState
 			else*/
 			{
 				HeaderCompilationBypass.setWindowTransparency(0);
-				FlxG.sound.play(Paths.sound("glitch"));
+				#if desktop
+				// Updating Discord Rich Presence
+				DiscordClient.changePresence("Encountered an error!", null);
+				#end
+				var errorSnd = FlxG.sound.play(Paths.sound("glitch"));
 				new FlxTimer().start(1.5, (_) -> {
+					errorSnd.stop();
 					HeaderCompilationBypass.showMessagePopup("Error", "Null Object Reference\n\nLine 42: universe.update();", MSG_ERROR);
 					new FlxTimer().start(1, (_) -> {
 						MusicBeatState.switchState(new Restoring());

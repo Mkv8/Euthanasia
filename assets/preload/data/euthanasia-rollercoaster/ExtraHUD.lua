@@ -1,48 +1,33 @@
-						--feature--
-local noteBop = false; --the note boping when pressed
-local emote = true; --- bf do animation. press SPACE to emote  [default: true]
-local playOpponent = false; -- play as opponent [default: false]
-local healthdrain = false; --- everytime opponent hit notes your health get drained like boyfriend do to opponent [default: true]
--- more coming
-						--Config--
-	daemote = ""  -- put the name of bf animation. [leave blank for hey/peace sign. if the bf is not the original one it will not playing]
+						--Features--
+
+local emote = true; --- bf do animation. press SPACE to emote.
+
+					      --Configuration--
+
+daemote = ""  -- put the name of bf animation.
 	
-						--settings--
+						--Settings--
+
 local Fullstat = true;
-local songBarr = false;
-local statSong = false; 
-local bopHead = false; 
 local hideP2Notes = true; 
 local sideHealthbar = true; 
-local camfollow = false;     -- maybe doesnt work properly on some mod/song --
-
-
-					   --Extras--
-local funnybf = false; --- thing that make bf squishable [default: false]
 
 -----------------------------------[[Settings Info]]---------------------------------------
---[[ camfollow = the camara follow the direction of notes [default: false]
-	
-   	 songBarr : a bar that will show up showing the song and bpm [default: true]
+
+--[[
+
+hideP2Notes : Hide the opponent notes.
 	 
-	 statSong : show the stats of song like difficulty and song name [!!WILL FORCE TIME BAR TYPE TO TIME ELAPSED!!] [cant detect different/custom difficulty] [default: true]
+sideHealthbar : Make the healthbar on the right side.
 	 
-	 bopHead : chars bopping on the beat [default: false]
-	 
-	 hideP2Notes : hide the opponent notes [default: false]
-	 
-	 sideHealthbar : make the healthbar on right side [osu healthbar thing] [default: false]
-	 
-	 Fullstat : show how many you have sicks,goods,bads,and shits [default: false]        
-																															]]--
+Fullstat : Shows how many Sicks, Goods, Bads and Shits you have.
+]]--
 																															
---[[                    Credits                    
-	bopHead : Form BBPanzu
-	playOpponent + sick notes hud : Form Plotsh
-	funnybf/ squishable bf : Form 4k_funny
+--[[
+			--Credits--
 	
-	the rest : Form Moch/Mochaama(myself lol)
-												]]--
+		     Form Moch/Mochaama
+]]--
 	
 
 				--the thing lolollolololol--
@@ -209,13 +194,6 @@ function onCreatePost()
 	end
 end
 
--- form 4k_funny
-accel_x = 0
-accel_x2 = 0
-bounce = 0
-bf_flip = 1
-pos_x = 800
--------------
 function onUpdate()
 	if boyfriendName == 'bf' then
 		if not isPixelStage then
@@ -271,36 +249,6 @@ function onUpdate()
 		setProperty('shit.alpha', getProperty('tnh.alpha'))
 	end
 
-	if funnybf then
-		if keyPressed("left") then
-			bounce = (1 - math.abs(accel_x)/5)
-			bf_flip = 1
-		elseif keyPressed("up") then
-			bounce = bounce*0.8 + 0.25
-		elseif keyPressed("down") then
-			bounce = bounce*0.7 + 0.25
-		elseif keyPressed("right") then
-			bounce = (1 - math.abs(accel_x)/5)
-			bf_flip = -1
-		else
-			accel_x2 = accel_x2 + (1 - bounce)/5
-			bounce = (bounce*0.8 + 0.2) + accel_x2
-		end
-
-		if keyPressed("left") then
-			accel_x = accel_x*0.75 - 1*0.25
-		elseif keyPressed("right") then
-			accel_x = accel_x*0.75 + 1*0.25
-		else
-			accel_x = (accel_x)*0.8
-		end
-
-		pos_x = pos_x + accel_x*6
-		setProperty('boyfriend.x', pos_x - 1/bounce * 150)
-		setProperty('boyfriend.y', 100 + 1/bounce * 350)
-		scaleObject('boyfriend', bf_flip/bounce, bounce)
-	end
-
 	if getProperty('health') > 1.6 then
 		if boyfriendName == 'bf' then
 			setProperty('iconP1.visible', false)
@@ -354,15 +302,6 @@ end
 
 
 function onBeatHit()
-	if bopHead then
-		if getAnim("dad") == "idle"..getProperty('dad.idleSuffix') then
-			characterPlayAnim("dad","idle"..getProperty('dad.idleSuffix'),true)
-		end
-		if getAnim("boyfriend") == "idle"..getProperty('boyfriend.idleSuffix') then
-			characterPlayAnim("boyfriend","idle"..getProperty('boyfriend.idleSuffix'),true)
-		end
-	end
-
 	if getProperty('curBeat') % 1 == 0 then
 		setProperty('timeTxt.angle',1*-10)
 		doTweenAngle('ho','timeTxt', 0, 0.2, 'quadInOut')
@@ -402,27 +341,8 @@ function onBeatHit()
 	end
 
 	if newBeat then
-		if getProperty('curBeat')%  25 == 0 then
-			for i = 4,7 do
-				setPropertyFromGroup('strumLineNotes', i, 'angle', 0)
-				noteTweenAngle("yez " .. i, i, 360, 0.2, "quadInOut")
-			end
-			for i = 0,3 do
-				setPropertyFromGroup('strumLineNotes', i, 'angle', 0)
-				noteTweenAngle("yezz " .. i, i, -360, 0.2, "quadInOut")
-			end
-		end
 		if getProperty('curBeat')% 4 == 0 then
 			triggerEvent('Add Camera Zoom', '-0.040', '-0.05')
-		end
-	end
-end
-
-function opponentNoteHit(id, direction, noteType, isSustainNote)
-	newBeat = true
-	if healthdrain then
-		if getProperty('health') > 0.2 then
-			setProperty('health',getProperty('health')-0.02)
 		end
 	end
 end
