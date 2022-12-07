@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Free texture packer v0.6.7 http://free-tex-packer.com
+-->
+<TextureAtlas imagePath="dot.png" width="210" height="1519">
+  <SubTexture name="dots0001" x="0" y="0"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0002" x="0" y="49"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0003" x="0" y="98"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0004" x="0" y="147"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0005" x="0" y="196"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0006" x="0" y="245"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0007" x="0" y="294"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0008" x="0" y="343"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0009" x="0" y="392"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0010" x="0" y="441"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0011" x="0" y="490"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0012" x="0" y="539"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0013" x="0" y="588"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0014" x="0" y="637"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0015" x="0" y="686"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0016" x="0" y="735"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0017" x="0" y="784"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0018" x="0" y="833"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0019" x="0" y="882"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0020" x="0" y="931"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0021" x="0" y="980"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0022" x="0" y="1029"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0023" x="0" y="1078"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0024" x="0" y="1127"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0025" x="0" y="1176"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0026" x="0" y="1225"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0027" x="0" y="1274"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0028" x="0" y="1323"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0029" x="0" y="1372"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0030" x="0" y="1421"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+  <SubTexture name="dots0031" x="0" y="1470"  width="210" height="49" frameX="-0" frameY="-0" frameWidth="210" frameHeight="49"/>
+</TextureAtlas>

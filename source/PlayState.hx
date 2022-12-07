@@ -2640,6 +2640,7 @@ class PlayState extends MusicBeatState
 			else*/
 			{
 				HeaderCompilationBypass.setWindowTransparency(0);
+				FlxG.fullscreen = false;
 				#if desktop
 				// Updating Discord Rich Presence
 				DiscordClient.changePresence("Encountered an error!", null);
